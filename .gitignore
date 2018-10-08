@@ -1,4 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
+
+#a Application config file
+config.json
+
 ### macOS template
 # General
 .DS_Store
