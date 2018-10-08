@@ -1,12 +1,12 @@
 {
-  "name": "discord-bot",
+  "name": "ep-hero-grading-bot",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Discord bot for displaying Empires and Puzzles hero grades in channels.",
+  "main": "src/bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "uxjulia@gmail.com",
   "license": "ISC",
   "dependencies": {
     "airtable": "^0.5.6",
