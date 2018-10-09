@@ -8,7 +8,10 @@ module.exports = {
           **Element**: ${data.element}
           **Stars**: ${data.stars}
           **Limited Availability?**: ${data.limited}
-
+          
+          Titan grade: **${data.oTitan}**
+          Defense grade: **${data.oDefense}**
+          Offense grade: **${data.oOffense}**
           __
           ${data.heroName}'s overall grade is **${data.overallGrade}**`
       )
@@ -50,7 +53,7 @@ module.exports = {
     console.error(`An error occurred while retrieving ${data}`)
   },
   noData(message, data) {
-    console.err(`No record found for ${data}`)
+    console.error(`No record found for ${data}`)
     message.reply('Uh oh. I can\'t seem to find that hero. If I should know this hero, please let my master @Av0 know to update my brains.')
   }
 }

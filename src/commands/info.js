@@ -17,6 +17,9 @@ module.exports = {
           const data = {}
           data.heroName = record.get('Hero')
           data.overallGrade = record.get('Overall')
+          data.oTitan = record.get('Overall Titan')
+          data.oDefense = record.get('Overall Defense')
+          data.oOffense = record.get('Overall Offense')
           data.element = record.get('Element')
           data.stars = record.get('Stars')
           data.limited = record.get('Limited') === 'TRUE' ? 'Yes' : 'No'
