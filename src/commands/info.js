@@ -22,6 +22,13 @@ module.exports = {
           data.oOffense = record.get('Overall Offense')
           data.element = record.get('Element')
           data.stars = record.get('Stars')
+          data.power = record.get('Power')
+          data.attack = record.get('Attack')
+          data.defense = record.get('Defense')
+          data.health = record.get('Health')
+          data.special = record.get('Special')
+          data.specialName = record.get('Special Name')
+          data.mana = record.get('Mana')
           data.limited = record.get('Limited') === 'TRUE' ? 'Yes' : 'No'
 
           if (data.heroName.toLowerCase() === hero) {
