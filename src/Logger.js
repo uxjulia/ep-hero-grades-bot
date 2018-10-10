@@ -4,16 +4,22 @@ module.exports = {
       console.log('Succesfully retrieved info for', data.heroName)
       message.reply(
         `Here's some information on ${data.heroName}:
-  
-          **Element**: ${data.element}
-          **Stars**: ${data.stars}
-          **Limited Availability?**: ${data.limited}
-          
-          Titan grade: **${data.oTitan}**
-          Defense grade: **${data.oDefense}**
-          Offense grade: **${data.oOffense}**
-          __
-          ${data.heroName}'s overall grade is **${data.overallGrade}**`
+
+    **Element**: ${data.element}
+    **Stars**: ${data.stars}
+    **Limited Availability?**: ${data.limited}
+    
+    **Power**: ${data.power}  |  **Attack**: ${data.attack}  |  **Defense**: ${data.defense}  |  **Health**: ${data.health}
+    
+    **Special Skill**: ${data.specialName}
+    **Mana Speed:** ${data.mana}
+    ${data.special}
+    
+    Titan grade: **${data.oTitan}**
+    Defense grade: **${data.oDefense}**
+    Offense grade: **${data.oOffense}**
+    __
+    ${data.heroName}'s overall grade is **${data.overallGrade}**`
       )
     },
     titan: function (message, data) {
