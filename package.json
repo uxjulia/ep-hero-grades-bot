@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "airtable": "^0.5.6",
-    "discord.js": "^11.4.2"
+    "discord.js": "^11.4.2",
+    "random-js": "^1.0.8"
   }
 }
