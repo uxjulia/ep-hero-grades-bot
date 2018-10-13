@@ -29,12 +29,12 @@ client.on('guildMemberAdd', member => {
 client.on('message', message => {
   if (!message.content.startsWith(prefix) || message.author.bot) return
   const args = message.content.slice(prefix.length).split(/ +/)
-  const command = args.shift().toLowerCase()
-  if (!client.commands.has(command)) return
-  const hero = message.content.substr(prefix.length + command.length).trim().toLowerCase()
+  const commandName = args.shift().toLowerCase()
+  if (!client.commands.has(commandName)) return
+  const command = client.commands.get(commandName)
   try {
     console.log(`Executing command: ${command} ...`)
-    client.commands.get(command).execute(message, hero)
+    command.execute(message, args)
   }
   catch (error) {
     console.error(error)
