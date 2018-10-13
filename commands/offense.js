@@ -1,14 +1,13 @@
 var Airtable = require('airtable')
-const {airtableApi, airtableBase} = require('../../config.json')
-var base = new Airtable({apiKey: airtableApi}).base(airtableBase)
+var base = new Airtable({apiKey: process.env.AIRTABLEAPI}).base(process.env.AIRTABLEBASE)
 const Logger = require('../Logger')
 
 module.exports = {
-  name: 'defense',
-  description: 'Get defense grades',
+  name: 'offense',
+  description: 'Get offense grades',
   execute(message, hero) {
     let count = 0
-    base('Defense Grades').select({
+    base('Offense Grades').select({
       view: 'Grid view',
       filterByFormula: `TRUE({Hero} = '${hero}')`,
     }).eachPage(
@@ -20,13 +19,23 @@ module.exports = {
           data.speed = record.get('Speed')
           data.effect = record.get('Effect')
           data.stamina = record.get('Stamina')
-          data.strength = record.get('Strength')
-          data.tank = record.get('Tank')
-          data.support = record.get('Support')
+          data.war = record.get('War')
+          data.versatility = record.get('Versatility')
 
           if (data.heroName.toLowerCase() === hero) {
             count++
-            Logger.success['defense'](message, data)
+            console.log('Retrieved', data.heroName)
+            message.reply(
+              `Here are ${data.heroName}'s **offense** grades:
+
+            **Speed**: ${data.speed}
+            **Effect**: ${data.effect}
+            **Stamina**: ${data.stamina}
+            **Versatility**: ${data.versatility}
+            **War**: ${data.war}
+            __
+            ${data.heroName}'s overall **offense** grade is **${data.overallGrade}**`
+            )
           }
         })
         fetchNextPage()

@@ -1,6 +1,5 @@
 var Airtable = require('airtable')
-const {airtableApi, airtableBase} = require('../../config.json')
-var base = new Airtable({apiKey: airtableApi}).base(airtableBase)
+var base = new Airtable({apiKey: process.env.AIRTABLEAPI}).base(process.env.AIRTABLEBASE)
 const Logger = require('../Logger')
 
 module.exports = {
