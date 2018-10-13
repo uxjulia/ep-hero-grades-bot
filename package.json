@@ -4,7 +4,7 @@
   "description": "Discord bot for displaying Empires and Puzzles hero grades in channels.",
   "main": "src/bot.js",
   "scripts": {
-    "prod": "node -r dotenv/config bot.js",
+    "start": "node -r dotenv/config bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "uxjulia@gmail.com",
