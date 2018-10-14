@@ -1,6 +1,6 @@
-var Random = require('random-js')
-var mt = Random.engines.mt19937()
-var random = new Random(mt.autoSeed())
+const Random = require('random-js')
+const mt = Random.engines.mt19937()
+const random = new Random(mt.autoSeed())
 const heroes = require('../heroes')
 
 const rate = {
@@ -43,7 +43,8 @@ class Summon {
     const rdm = Summon.randomize(0, length)
     let hero = heroes[r][rdm] //?
     const allowBonus = Summon.allowBonusDraw() //?
-    return `You summoned ${r === 'epic' ? 'an' : 'a'} **${r}** hero: **${hero}**!
+    return `
+    You summoned ${r === 'epic' ? 'an' : 'a'} **${r}** hero: **${hero}**!
     ${allowBonus === true ? 'Congrats! You also drew the Hero of the Month!' : 'Sorry, you didn\'t pull the Hero of the Month'}`
   }
 }

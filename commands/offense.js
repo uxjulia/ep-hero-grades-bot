@@ -1,54 +1,15 @@
-var Airtable = require('airtable')
-var base = new Airtable({apiKey: process.env.AIRTABLEAPI}).base(process.env.AIRTABLEBASE)
-const Logger = require('../Logger')
+const Database = require('../Database')
 
 module.exports = {
   name: 'offense',
-  description: 'Get offense grades',
-  execute(message, hero) {
-    let count = 0
-    base('Offense Grades').select({
-      view: 'Grid view',
-      filterByFormula: `TRUE({Hero} = '${hero}')`,
-    }).eachPage(
-      function page(records, fetchNextPage) {
-        records.forEach(function (record) {
-          const data = {}
-          data.heroName = record.get('Hero')
-          data.overallGrade = record.get('Overall')
-          data.speed = record.get('Speed')
-          data.effect = record.get('Effect')
-          data.stamina = record.get('Stamina')
-          data.war = record.get('War')
-          data.versatility = record.get('Versatility')
-
-          if (data.heroName.toLowerCase() === hero) {
-            count++
-            console.log('Retrieved', data.heroName)
-            message.reply(
-              `Here are ${data.heroName}'s **offense** grades:
-
-            **Speed**: ${data.speed}
-            **Effect**: ${data.effect}
-            **Stamina**: ${data.stamina}
-            **Versatility**: ${data.versatility}
-            **War**: ${data.war}
-            __
-            ${data.heroName}'s overall **offense** grade is **${data.overallGrade}**`
-            )
-          }
-        })
-        fetchNextPage()
-      },
-      function done(err) {
-        if (err) {
-          Logger.error(hero, err)
-          return err
-        }
-        if (count === 0) {
-          Logger.noData(message, hero)
-        }
-      }
-    )
-  }
+  description: 'Get offense grades for a hero',
+  args: true,
+  execute(message, args) {
+    console.log('executing offense..', args)
+    if (args.length) {
+      const input = args.length >= 2 ? args[0].concat(' ', args[1]) : args[0]
+      const hero = input.toLowerCase()
+      Database.getOffense(hero, message)
+    }
+  },
 }
