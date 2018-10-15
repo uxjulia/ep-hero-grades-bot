@@ -27,13 +27,13 @@ module.exports = {
       message.reply(
         `Here are ${data.heroName}'s **titan** grades:
 
-              **Stamina**: ${data.stamina}
-              **Passive**: ${data.passive}
-              **Direct**: ${data.direct}
-              **Tiles**: ${data.tiles}
-              **Versatility**: ${data.versatility}
-              __
-              ${data.heroName}'s overall **titan** grade is **${data.overallGrade}**`
+        **Stamina**: ${data.stamina}
+        **Passive**: ${data.passive}
+        **Direct**: ${data.direct}
+        **Tiles**: ${data.tiles}
+        **Versatility**: ${data.versatility}
+        __
+        ${data.heroName}'s overall **titan** grade is **${data.overallGrade}**`
       )
     },
     defense: function (message, data) {
@@ -41,18 +41,29 @@ module.exports = {
       message.reply(
         `Here are ${data.heroName}'s **defense** grades:
 
-            **Speed**: ${data.speed}
-            **Effect**: ${data.effect}
-            **Stamina**: ${data.stamina}
-            **Strength**: ${data.strength}
-            **Tank**: ${data.tank}
-            **Support**: ${data.support}
-            __
-            ${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`
+        **Speed**: ${data.speed}
+        **Effect**: ${data.effect}
+        **Stamina**: ${data.stamina}
+        **Strength**: ${data.strength}
+        **Tank**: ${data.tank}
+        **Support**: ${data.support}
+        __
+        ${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`
       )
     },
     offense: function (message, data) {
+      console.log('Succesfully retrieved offense data for', data.heroName)
+      message.reply(
+        `Here are ${data.heroName}'s **offense** grades:
 
+        **Speed**: ${data.speed}
+        **Effect**: ${data.effect}
+        **Stamina**: ${data.stamina}
+        **Versatility**: ${data.versatility}
+        **War**: ${data.war}
+        __
+        ${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`
+      )
     }
   },
   error(data) {
