@@ -10,8 +10,8 @@ const heroes = require('../heroes')
  */
 const rate = {
   hotm: 1.3,
-  legendary: 2.5,
-  epic: 29,
+  legendary: 1.5,
+  epic: 28,
   rare: 100
 }
 
