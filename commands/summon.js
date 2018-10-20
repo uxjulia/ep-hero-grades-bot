@@ -56,7 +56,7 @@ class Summon {
     let allowBonus = Summon.allowBonusDraw()
     let result = hero
     if (allowBonus !== false) {
-      result = hero.concat(`+ BONUS HOTM`)
+      result = hero.concat(` + BONUS HOTM`)
     }
     return result
   }
