@@ -1,29 +1,33 @@
+const Discord = require('discord.js');
+const Canvas = require('canvas');
+
+const canvas = Canvas.createCanvas(432, 680);
+const ctx = canvas.getContext('2d');
+
+
 module.exports = {
   success: {
     info: function (message, data) {
-      console.log('Succesfully retrieved info for', data.heroName)
+      console.log('Successfully retrieved info for', data.heroName)
       message.reply(
         `Here's some information on ${data.heroName}:
-
-**Element**: ${data.element}
-**Stars**: ${data.stars}
-**Limited Availability?**: ${data.limited}
-    
-**Power**: ${data.power}  |  **Attack**: ${data.attack}  |  **Defense**: ${data.defense}  |  **Health**: ${data.health}
-    
-**Special Skill**: ${data.specialName}
-**Mana Speed:** ${data.mana}
-${data.special}
-    
-Titan grade: **${data.oTitan}**
-Defense grade: **${data.oDefense}**
-Offense grade: **${data.oOffense}**
-__
-${data.heroName}'s overall grade is **${data.overallGrade}**`
-)
+        **Element**: ${data.element}
+        **Stars**: ${data.stars}
+        **Limited Availability?**: ${data.limited}
+        **Power**: ${data.power}  |  **Attack**: ${data.attack}  |  **Defense**: ${data.defense}  |  **Health**: ${data.health}
+        **Special Skill**: ${data.specialName}
+        **Mana Speed:** ${data.mana}
+        ${data.special}
+        
+        Titan grade: **${data.oTitan}**
+        Defense grade: **${data.oDefense}**
+        Offense grade: **${data.oOffense}**
+        __
+        ${data.heroName}'s overall grade is **${data.overallGrade}**`
+      )
     },
     titan: function (message, data) {
-      console.log('Succesfully retrieved titan data for', data.heroName)
+      console.log('Successfully retrieved titan data for', data.heroName)
       message.reply(
         `Here are ${data.heroName}'s **titan** grades:
 
@@ -37,7 +41,7 @@ ${data.heroName}'s overall grade is **${data.overallGrade}**`
       )
     },
     defense: function (message, data) {
-      console.log('Succesfully retrieved defense data for', data.heroName)
+      console.log('Successfully retrieved defense data for', data.heroName)
       message.reply(
         `Here are ${data.heroName}'s **defense** grades:
 
@@ -52,7 +56,7 @@ ${data.heroName}'s overall grade is **${data.overallGrade}**`
       )
     },
     offense: function (message, data) {
-      console.log('Succesfully retrieved offense data for', data.heroName)
+      console.log('Successfully retrieved offense data for', data.heroName)
       message.reply(
         `Here are ${data.heroName}'s **offense** grades:
 
@@ -64,6 +68,17 @@ ${data.heroName}'s overall grade is **${data.overallGrade}**`
         __
         ${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`
       )
+    },
+    image: async function(message, data) {
+      console.log('Successfully retrieved image for', data.hero)
+      const img = await Canvas.loadImage(data.url);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const attachment = new Discord.Attachment(canvas.toBuffer(), `${data.hero}.png`);
+      message.reply(attachment);
+    },
+    withImage: function(image, message) {
+      console.log('Successfully retrieved image')
+      message.reply(image)
     }
   },
   error(data) {
