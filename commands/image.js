@@ -3,13 +3,14 @@ const Discord = require('discord.js');
 const images = require('../images')
 const Canvas = require('canvas')
 const Logger = require('../Logger');
-const canvas = Canvas.createCanvas(432, 680);
+const canvas = Canvas.createCanvas(463, 680);
 const ctx = canvas.getContext('2d');
 
 // Locally get URLs
 const getImage = async(hero, message) => {
   try {
-    let url = images[hero];
+    const awsName = hero.replace(/\s/g,'') // Remove white space for AWS
+    let url = images.aws.has(hero) ? `https://s3.amazonaws.com/ep-heroes/${awsName}.png` : images.local[hero]
     if (url === undefined) {
       return message.reply(`Hmm. Looks like I don't have an image for that hero yet.`);
     }
