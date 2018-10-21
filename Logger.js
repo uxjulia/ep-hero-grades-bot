@@ -69,16 +69,10 @@ module.exports = {
         ${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`
       )
     },
-    image: async function(message, data) {
-      console.log('Successfully retrieved image for', data.hero)
-      const img = await Canvas.loadImage(data.url);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      const attachment = new Discord.Attachment(canvas.toBuffer(), `${data.hero}.png`);
-      message.reply(attachment);
-    },
-    withImage: function(image, message) {
+    withImage: function(image, message, isUpdated) {
       console.log('Successfully retrieved image')
-      message.reply(image)
+      const messageWithNote = 'Note: This image needs to be updated'
+      return isUpdated===false ? message.reply(messageWithNote, image) : message.reply(image)
     }
   },
   error(data) {
