@@ -1,5 +1,6 @@
 const aws = new Map([
   ["elkanen"],
+  ["aegir"],
   ["alasie"],
   ["azar"],
   ["azlar"],
@@ -55,11 +56,28 @@ const aws = new Map([
   ["musashi"],
   ["natalya"],
   ["perseus"],
+  ["proteus"],
   ["quintus"],
   ["rigard"],
   ["thoth-amun"],
   ["vivica"],
-  ]);
+  ["wilbur"],
+  ["tarlak"],
+  ["sirlancelot"],
+  ["masterlepus"],
+  ["sumitomo"],
+  ["richard"],
+  ["leonidas"],
+  ["khagan"],
+  ["drakefong"],
+  ["elena"],
+  ["domitia"],
+  ["chao"],
+  ["captainkestrel"],
+  ["bosswolf2"],
+  ["bosswolf"],
+  ["ares"],
+]);
 
 const local = {
   "aegir": "https://s3.amazonaws.com/ep-heroes/aegir.png",
