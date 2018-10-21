@@ -10,5 +10,8 @@ A Discord bot that retrieves hero ratings and delivers them to a Discord channel
 * `!titan`- Get titan grades for a given hero
 * `!offense` - Get offense grades for a given hero
 * `!defense` - Get defense grades for a given hero 
+* `!image` - Get the card image for a given hero 
 
-
+### Additional Commands
+* `!summon` - Simulate an elemental hero summon
+* `!summon 10` - Simulate a 10-pull elemental hero summon
