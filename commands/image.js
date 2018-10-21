@@ -30,13 +30,19 @@ module.exports = {
   name: 'image',
   description: 'Get image for hero',
   args: true,
-  execute (message, args) {
+  execute: async function (message, args) {
     if (args.length) {
-      const input = args.length >= 2 ? args[0].concat(' ', args[1]) : args[0]
-      const hero = input.toLowerCase()
-      // Uncomment line below to get URLs from Airtable database.
-      // Database.getImage(hero, message)
-      return getImage(hero, message);
+      try {
+        const input = args.length >= 2 ? args[0].concat(' ', args[1]) : args[0]
+        const hero = input.toLowerCase()
+        // Uncomment line below to get URLs from Airtable database.
+        // Database.getImage(hero, message)
+        return getImage(hero, message);
+      }
+      catch(error) {
+        console.log(error)
+        message.reply('Uh oh. Something went wrong. Please try again.')
+      }
     }
   },
 }
