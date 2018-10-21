@@ -5,6 +5,7 @@ const aws = new Map([
   ["azar"],
   ["azlar"],
   ["belith"],
+  ["bane"],
   ["berden"],
   ["boldtusk"],
   ["brienne"],
@@ -74,7 +75,6 @@ const aws = new Map([
   ["domitia"],
   ["chao"],
   ["captainkestrel"],
-  ["bosswolf2"],
   ["bosswolf"],
   ["ares"],
 ]);
