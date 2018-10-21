@@ -16,7 +16,11 @@ const getImage = async(hero, message) => {
       return message.reply(`Hmm. Looks like I don't have an image for that hero yet.`);
     }
     const img = await Canvas.loadImage(url);
-    ctx.drawImage(img, 0, 0);
+    if (imageIsUpdated) {
+      ctx.drawImage(img, 0, 0)
+    } else {
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+    }
     const image = new Discord.Attachment(canvas.toBuffer(), `${hero}.png`);
     Logger.success['withImage'](image, message, imageIsUpdated);
   }
