@@ -3,21 +3,22 @@ const Discord = require('discord.js');
 const images = require('../images')
 const Canvas = require('canvas')
 const Logger = require('../Logger');
-const canvas = Canvas.createCanvas(463, 680);
+const canvas = Canvas.createCanvas(470, 680);
 const ctx = canvas.getContext('2d');
 
 // Locally get URLs
 const getImage = async(hero, message) => {
   try {
     const awsName = hero.replace(/\s/g,'') // Remove white space for AWS
-    let url = images.aws.has(hero) ? `https://s3.amazonaws.com/ep-heroes/${awsName}.png` : images.local[hero]
+    const imageIsUpdated = images.aws.has(awsName)
+    let url = imageIsUpdated ? `https://s3.amazonaws.com/ep-heroes/${awsName}.png` : images.local[hero]
     if (url === undefined) {
       return message.reply(`Hmm. Looks like I don't have an image for that hero yet.`);
     }
     const img = await Canvas.loadImage(url);
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0);
     const image = new Discord.Attachment(canvas.toBuffer(), `${hero}.png`);
-    Logger.success['withImage'](image, message);
+    Logger.success['withImage'](image, message, imageIsUpdated);
   }
   catch(error) {
     console.log(error)
