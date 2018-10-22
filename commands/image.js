@@ -5,6 +5,7 @@ const Canvas = require('canvas')
 const Logger = require('../Logger');
 const canvas = Canvas.createCanvas(470, 680);
 const ctx = canvas.getContext('2d');
+const {getHeroName} = require('../Utils')
 
 // Locally get URLs
 const getImage = async(hero, message) => {
@@ -37,8 +38,7 @@ module.exports = {
   execute: async function (message, args) {
     if (args.length) {
       try {
-        const input = args.length >= 2 ? args[0].concat(' ', args[1]) : args[0]
-        const hero = input.toLowerCase()
+        const hero = getHeroName(args)
         // Uncomment line below to get URLs from Airtable database.
         // Database.getImage(hero, message)
         return getImage(hero, message);
