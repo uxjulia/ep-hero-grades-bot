@@ -11,19 +11,19 @@ module.exports = {
       console.log('Successfully retrieved info for', data.heroName)
       message.reply(
         `Here's some information on ${data.heroName}:
-        **Element**: ${data.element}
-        **Stars**: ${data.stars}
-        **Limited Availability?**: ${data.limited}
-        **Power**: ${data.power}  |  **Attack**: ${data.attack}  |  **Defense**: ${data.defense}  |  **Health**: ${data.health}
-        **Special Skill**: ${data.specialName}
-        **Mana Speed:** ${data.mana}
-        ${data.special}
-        
-        Titan grade: **${data.oTitan}**
-        Defense grade: **${data.oDefense}**
-        Offense grade: **${data.oOffense}**
-        __
-        ${data.heroName}'s overall grade is **${data.overallGrade}**`
+**Element**: ${data.element}
+**Stars**: ${data.stars}
+**Limited Availability?**: ${data.limited}
+**Power**: ${data.power}  |  **Attack**: ${data.attack}  |  **Defense**: ${data.defense}  |  **Health**: ${data.health}
+**Special Skill**: ${data.specialName}
+**Mana Speed:** ${data.mana}
+${data.special}
+
+Titan grade: **${data.oTitan}**
+Defense grade: **${data.oDefense}**
+Offense grade: **${data.oOffense}**
+__
+${data.heroName}'s overall grade is **${data.overallGrade}**`
       )
     },
     titan: function (message, data) {
@@ -31,13 +31,13 @@ module.exports = {
       message.reply(
         `Here are ${data.heroName}'s **titan** grades:
 
-        **Stamina**: ${data.stamina}
-        **Passive**: ${data.passive}
-        **Direct**: ${data.direct}
-        **Tiles**: ${data.tiles}
-        **Versatility**: ${data.versatility}
-        __
-        ${data.heroName}'s overall **titan** grade is **${data.overallGrade}**`
+**Stamina**: ${data.stamina}
+**Passive**: ${data.passive}
+**Direct**: ${data.direct}
+**Tiles**: ${data.tiles}
+**Versatility**: ${data.versatility}
+__
+${data.heroName}'s overall **titan** grade is **${data.overallGrade}**`
       )
     },
     defense: function (message, data) {
@@ -45,14 +45,14 @@ module.exports = {
       message.reply(
         `Here are ${data.heroName}'s **defense** grades:
 
-        **Speed**: ${data.speed}
-        **Effect**: ${data.effect}
-        **Stamina**: ${data.stamina}
-        **Strength**: ${data.strength}
-        **Tank**: ${data.tank}
-        **Support**: ${data.support}
-        __
-        ${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`
+**Speed**: ${data.speed}
+**Effect**: ${data.effect}
+**Stamina**: ${data.stamina}
+**Strength**: ${data.strength}
+**Tank**: ${data.tank}
+**Support**: ${data.support}
+__
+${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`
       )
     },
     offense: function (message, data) {
@@ -60,13 +60,13 @@ module.exports = {
       message.reply(
         `Here are ${data.heroName}'s **offense** grades:
 
-        **Speed**: ${data.speed}
-        **Effect**: ${data.effect}
-        **Stamina**: ${data.stamina}
-        **Versatility**: ${data.versatility}
-        **War**: ${data.war}
-        __
-        ${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`
+**Speed**: ${data.speed}
+**Effect**: ${data.effect}
+**Stamina**: ${data.stamina}
+**Versatility**: ${data.versatility}
+**War**: ${data.war}
+__
+${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`
       )
     },
     withImage: function(image, message, isUpdated) {

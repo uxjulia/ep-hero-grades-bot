@@ -1,4 +1,5 @@
 const Database = require('../Database')
+const {getHeroName} = require('../Utils')
 
 module.exports = {
   name: 'offense',
@@ -7,8 +8,7 @@ module.exports = {
   execute(message, args) {
     console.log('executing offense..', args)
     if (args.length) {
-      const input = args.length >= 2 ? args[0].concat(' ', args[1]) : args[0]
-      const hero = input.toLowerCase()
+      const hero = getHeroName(args)
       Database.getOffense(hero, message)
     }
   },
