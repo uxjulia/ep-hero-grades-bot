@@ -94,7 +94,10 @@ const aws = new Map([
   ["karil"],
   ["oberon"],
   ["ulmer"],
-  ["valen"]
+  ['valen'],
+  ['victor'],
+  ['vlad'],
+  ['valeria']
 ]);
 
 const local = {
