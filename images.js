@@ -97,7 +97,15 @@ const aws = new Map([
   ['valen'],
   ['victor'],
   ['vlad'],
-  ['valeria']
+  ['valeria'],
+  ["merlin"],
+  ["cabinboypeters"],
+  ["gafar"],
+  ["gormek"],
+  ["gretel"],
+  ["guardianfalcon"],
+  ["guardianjackal"],
+  ["jabbar"],
 ]);
 
 const local = {
