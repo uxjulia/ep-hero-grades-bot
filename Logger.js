@@ -66,7 +66,7 @@ ${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`
 **Versatility**: ${data.versatility}
 **War**: ${data.war}
 __
-${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`
+${data.heroName}'s overall **offense** grade is **${data.overallGrade}**`
       )
     },
     withImage: function(image, message, isUpdated) {
