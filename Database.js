@@ -5,7 +5,6 @@ const Logger = require('./Logger')
 const titanBase = base('Titan Grades')
 const defenseBase = base('Defense Grades')
 const offenseBase = base('Offense Grades')
-const imageBase = base('Images')
 const overview = base('Overview')
 
 function getInfo(hero, message) {
@@ -161,37 +160,4 @@ function getOffense(hero, message) {
   )
 }
 
-function getImage(hero, message) {
-  let count = 0
-  imageBase.select({
-    view: 'Grid view',
-    filterByFormula: `TRUE({ID} = '${hero}')`,
-  }).eachPage(
-    function page(records, fetchNextPage) {
-      records.forEach(function (record) {
-        let heroName = record.get('ID')
-        if (heroName.toLowerCase() === hero) {
-          count++
-          const data = {}
-          data.hero = heroName
-          data.url = record.get('URL')
-          Logger.success['image'](message, data)
-        }
-      })
-      fetchNextPage()
-    },
-    function done(err) {
-      if (err) {
-        Logger.error(hero, err)
-        return err
-      }
-      if (count === 0) {
-        Logger.noData(message, hero)
-      }
-    }
-  )
-}
-
-
-
-module.exports = {getInfo, getTitan, getDefense, getOffense, getImage}
+module.exports = {getInfo, getTitan, getDefense, getOffense}
