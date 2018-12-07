@@ -72,8 +72,11 @@ const withImage = function(image, message, isUpdated) {
 
 const success = {info, titan, defense, offense, withImage };
 
-const error =  function(data) {
-  console.error(`An error occurred while retrieving ${data}`)
+const error =  function(hero, err, message) {
+  console.error(`An error occurred while retrieving ${hero} with error: ${err}`)
+  if (message) {
+    message.reply(`An error occurred while retrieving ${hero}`);
+  }
 };
 
 const noData = function(message, data) {
