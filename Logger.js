@@ -78,7 +78,7 @@ const error =  function(data) {
 
 const noData = function(message, data) {
   console.error(`No record found for ${data}`)
-  message.reply('Uh oh. I can\'t seem to find that hero. If I should know this hero, please let my master <@!342706933389852672> know to update my brains.')
+  message.reply('Uh oh. I can\'t seem to find that hero. If I should know this hero, please let my master <@!342706933389852672> know to add this hero.')
 };
 
 module.exports = { success, error, noData };
