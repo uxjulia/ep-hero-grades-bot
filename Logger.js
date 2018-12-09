@@ -19,8 +19,7 @@ ${data.heroName}'s overall grade is **${data.overallGrade}**`
 };
 
 const titan = function (message, data) {
-  console.log('Successfully retrieved titan data for', data.heroName)
-  message.reply(
+  message.channel.send(
     `Here are ${data.heroName}'s **titan** grades:
 
 **Stamina**: ${data.stamina}
@@ -31,11 +30,12 @@ const titan = function (message, data) {
 __
 ${data.heroName}'s overall **titan** grade is **${data.overallGrade}**`
   )
+    .then(() => console.log('Successfully retrieved titan data for', data.heroName))
+    .catch(console.error);
 };
 
 const defense = function (message, data) {
-  console.log('Successfully retrieved defense data for', data.heroName)
-  message.reply(
+  message.channel.send(
     `Here are ${data.heroName}'s **defense** grades:
 
 **Speed**: ${data.speed}
@@ -47,11 +47,12 @@ const defense = function (message, data) {
 __
 ${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`
   )
+    .then(() => console.log('Successfully retrieved defense data for', data.heroName))
+    .catch(console.error);
 };
 
 const offense = function (message, data) {
-  console.log('Successfully retrieved offense data for', data.heroName)
-  message.reply(
+  message.channel.send(
     `Here are ${data.heroName}'s **offense** grades:
 
 **Speed**: ${data.speed}
@@ -62,20 +63,23 @@ const offense = function (message, data) {
 __
 ${data.heroName}'s overall **offense** grade is **${data.overallGrade}**`
   )
+  .then(() => console.log('Successfully retrieved offense data for', data.heroName))
+  .catch(console.error);
 };
 
 const withImage = function(image, message, isUpdated) {
   console.log('Successfully retrieved image')
   const messageWithNote = 'Note: This image needs to be updated'
-  return isUpdated===false ? message.reply(messageWithNote, image) : message.reply(image)
+  return isUpdated===false ? message.channel.send(messageWithNote, image) : message.channel.send(image)
 };
 
 const success = {info, titan, defense, offense, withImage };
 
 const error =  function(hero, err, message) {
-  console.error(`An error occurred while retrieving ${hero} with error: ${err}`)
   if (message) {
-    message.reply(`An error occurred while retrieving ${hero}`);
+    message.channel.send(`An error occurred while retrieving ${hero}`)
+    .then(() => console.log(`An error occurred while retrieving ${hero} with error: ${err}`))
+    .catch(console.error);
   }
 };
 
