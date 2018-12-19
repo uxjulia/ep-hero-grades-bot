@@ -1,6 +1,5 @@
 const info = function (message, data) {
-  console.log('Successfully retrieved info for', data.heroName)
-  message.reply(
+  message.channel.send(
     `Here's some information on ${data.heroName}:
 **Element**: ${data.element}
 **Stars**: ${data.stars}
@@ -15,7 +14,8 @@ Defense grade: **${data.oDefense}**
 Offense grade: **${data.oOffense}**
 __
 ${data.heroName}'s overall grade is **${data.overallGrade}**`
-  )
+  ).then(() => console.log('Successfully retrieved info for', data.heroName))
+  .catch(console.error);
 };
 
 const titan = function (message, data) {
