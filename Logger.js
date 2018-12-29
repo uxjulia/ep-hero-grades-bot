@@ -1,6 +1,5 @@
 const info = function (message, data) {
-  console.log('Successfully retrieved info for', data.heroName)
-  message.reply(
+  message.channel.send(
     `Here's some information on ${data.heroName}:
 **Element**: ${data.element}
 **Stars**: ${data.stars}
@@ -15,7 +14,8 @@ Defense grade: **${data.oDefense}**
 Offense grade: **${data.oOffense}**
 __
 ${data.heroName}'s overall grade is **${data.overallGrade}**`
-  )
+  ).then(() => console.log('Successfully retrieved info for', data.heroName))
+  .catch(error => console.error(error.message));
 };
 
 const titan = function (message, data) {
@@ -31,7 +31,7 @@ __
 ${data.heroName}'s overall **titan** grade is **${data.overallGrade}**`
   )
     .then(() => console.log('Successfully retrieved titan data for', data.heroName))
-    .catch(console.error);
+    .catch(error => console.error(error.message));
 };
 
 const defense = function (message, data) {
@@ -48,7 +48,7 @@ __
 ${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`
   )
     .then(() => console.log('Successfully retrieved defense data for', data.heroName))
-    .catch(console.error);
+    .catch(error => console.error(error.message));
 };
 
 const offense = function (message, data) {
@@ -64,7 +64,7 @@ __
 ${data.heroName}'s overall **offense** grade is **${data.overallGrade}**`
   )
   .then(() => console.log('Successfully retrieved offense data for', data.heroName))
-  .catch(console.error);
+  .catch(error => console.error(error.message));
 };
 
 const withImage = function(image, message, isUpdated) {
@@ -79,16 +79,15 @@ const error =  function(hero, err, message) {
   if (message) {
     message.channel.send(`An error occurred while retrieving ${hero}`)
     .then(() => console.log(`An error occurred while retrieving ${hero} with error: ${err}`))
-    .catch(console.error);
+    .catch(error => console.error(error.message));
   }
 };
 
 const noData = function(message, data) {
   console.error(`No record found for ${data}`)
   message.reply('Uh oh. I can\'t seem to find that hero. If I should know this hero, please let my master <@!342706933389852672> know to add this hero.')
+  .then(() => console.log(`Successfully responded to channel with error message`))
+  .catch(error => console.error(error.message));
 };
 
 module.exports = { success, error, noData };
-
-
-// TODO: Add a command that allows users to add/alert of new heroes.

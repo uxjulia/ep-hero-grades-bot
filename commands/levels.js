@@ -15,6 +15,6 @@ module.exports = {
     let levels = data[args[0].toLowerCase()];
     message.channel.send(`Best level(s) for ${element} monsters: ${levels}`)
       .then(() => console.log(`Successfully sent reply for ${element} monsters`))
-      .catch(console.error);
+      .catch(error => console.error(error.message))
   }
 }

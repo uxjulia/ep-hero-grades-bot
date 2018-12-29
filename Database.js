@@ -35,7 +35,7 @@ function getInfo(hero, message) {
   }).eachPage(
     function page(records, fetchNextPage) {
       records.forEach(function (record) {
-        let heroName = record.get('Name')[0]
+        let heroName = record.get('ID');
         if (heroName.toLowerCase() === hero) {
           count++
           try {
