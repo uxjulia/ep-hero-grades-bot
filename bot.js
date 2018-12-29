@@ -34,14 +34,8 @@ client.on('message', message => {
   const commandName = args.shift().toLowerCase()
   if (!client.commands.has(commandName)) return
   const command = client.commands.get(commandName)
-  try {
-    console.log(`Executing command: ${command.name} ...`)
-    command.execute(message, args)
-  }
-  catch (error) {
-    console.error(error)
-    message.reply(errorResponse)
-  }
+  console.log(`Executing command: ${command.name} ...`)
+  command.execute(message, args)
 })
 
 client.login(token)
