@@ -43,4 +43,4 @@ client.on('message', message => {
     }
 })
 
-client.login(token).then(() => console.log('Successfully logged in'));
+client.login(token).then(() => console.log('Successfully logged in')).catch(error => console.error(error))
