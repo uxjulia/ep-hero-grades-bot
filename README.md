@@ -13,12 +13,12 @@ A Discord bot that retrieves hero ratings and delivers them to a Discord channel
 Example usage: `!info Elena`
 
 ### Additional Commands
-* `!summon` - Simulate an epic hero summon*
+* `!summon` - Simulate an epic hero summon
 * `!summon 10` - Simulate a 10-pull epic hero summon
 * `!levels [element]` - Lists the best level(s) for fighting the specified elemental monsters
 
 Example: `!levels holy`
 
-* `!titan-loot [total titan HP]` - Get info on rank / damange needed for specific titan loot tiers
+* `!titan-loot [total titan HP]` - Get info on rank / damage needed for specific titan loot tiers
 
 Example: `!titan-loot 2750000`
