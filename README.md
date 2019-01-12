@@ -19,6 +19,6 @@ Example usage: `!info Elena`
 
 Example: `!levels holy`
 
-* `!titan-loot [total titan HP]` - Get info on rank / damage needed for specific titan loot tiers
+* `!loot [total titan HP]` - Get info on rank / damage needed for specific titan loot tiers
 
-Example: `!titan-loot 2750000`
+Example: `!loot 2750000`
