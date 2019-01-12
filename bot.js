@@ -37,8 +37,8 @@ client.on('message', message => {
   if (!message.content.startsWith(prefix) || message.author.bot) return
   const args = message.content.slice(prefix.length).split(/ +/)
   const commandName = args.shift().toLowerCase()
-  if (!client.commands.has(commandName)) return
   const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+  if (!command) return
   try {
     log(`Executing command ${command.name.toUpperCase()} initiated from server: ${message.guild.name.toUpperCase()} in channel: ${message.channel.name.toUpperCase()}`)
     command.execute(message, args)
