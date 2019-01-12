@@ -30,6 +30,6 @@ module.exports = {
     const hp = args[0]
     const dmg = damage(hp)
     const msg = getMessage(dmg)
-    message.channel.send(msg).then((msg) => log(`Successfully sent reply for titan loot to server: ${msg.guild.name}, in channel: ${msg.channel.name}`)).catch(error => console.error(error.message))
+    message.channel.send(msg).then(() => log(`Successfully sent reply for titan loot`)).catch(error => console.error(error.message))
   }
 }

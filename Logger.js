@@ -1,11 +1,15 @@
 const {log} = require('./Utils');
 
 const info = function (message, data) {
+  let family = data.family !== undefined ? data.family[0] : "N/A";
   message.channel.send(
     `Here's some information on ${data.heroName}:
 **Element**: ${data.element}
 **Stars**: ${data.stars}
 **Limited Availability?**: ${data.limited}
+**Class**: ${data.class}
+**Atlantis Family**: ${family}
+
 **Power**: ${data.power}  |  **Attack**: ${data.attack}  |  **Defense**: ${data.defense}  |  **Health**: ${data.health}
 **Special Skill**: ${data.specialName}
 **Mana Speed:** ${data.mana}
@@ -75,12 +79,10 @@ const withImage = function(image, message, isUpdated) {
   return isUpdated===false ? message.channel.send(messageWithNote, image).then(() => log('Successfully sent image')).catch(error => console.error(error)) : message.channel.send(image).then(() => log('Successfully sent image')).catch(error => console.error(error))
 };
 
-const success = {info, titan, defense, offense, withImage };
-
 const error =  function(hero, err, message) {
   if (message) {
     message.channel.send(`An error occurred while retrieving ${hero}`)
-    .then(() => log(`An error occurred while retrieving ${hero} with error: ${err}`))
+    .then(() => console.log(`An error occurred while retrieving ${hero} with error: ${err}`))
     .catch(error => console.error(error.message));
   }
 };
@@ -88,8 +90,9 @@ const error =  function(hero, err, message) {
 const noData = function(message, data) {
   console.error(`No record found for ${data}`)
   message.reply('Uh oh. I can\'t seem to find that hero. If I should know this hero, please let my master <@!342706933389852672> know to add this hero.')
-  .then(() => log("Successfully responded to channel with error message"))
+  .then(() => console.log("Successfully responded to channel with error message"))
   .catch(error => console.error(error.message));
 };
 
+const success = {info, titan, defense, offense, withImage };
 module.exports = { success, error, noData };
