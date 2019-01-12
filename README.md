@@ -16,3 +16,9 @@ Example usage: `!info Elena`
 * `!summon` - Simulate an epic hero summon
 * `!summon 10` - Simulate a 10-pull epic hero summon
 * `!levels [element]` - Lists the best level(s) for fighting the specified elemental monsters
+
+Example: `!levels holy`
+
+* `!titan-loot [total titan HP]` - Get info on rank / damage needed for specific titan loot tiers
+
+Example: `!titan-loot 2750000`

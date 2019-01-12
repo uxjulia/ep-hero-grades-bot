@@ -10,7 +10,7 @@ const data = {
 
 module.exports = {
   name: 'levels',
-  description: 'Get best levels for fire monsters',
+  description: 'Get best levels for filling elemental chests',
   args: true,
   execute(message, args) {
     let element = args[0].toUpperCase();
