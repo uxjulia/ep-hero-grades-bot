@@ -1,4 +1,4 @@
-const b = .03
+const b = .033
 const c = .01
 
 function damage(hp) {
