@@ -19,12 +19,16 @@ client.once('ready', () => {
 })
 
 client.on('guildMemberAdd', member => {
+  // Do nothing if the member added is a bot.
+  if (member.user.bot) return;
+
   // Send the message to a designated channel on a server:
   const channel = member.guild.channels.find(ch => ch.name === 'general')
   const welcomeChannel = member.guild.channels.find(ch => ch.name === 'welcome')
 
-  // Do nothing if the channel wasn't found on this server
-  if (!channel) return
+  // Do nothing if the channels are not found on this server
+  if (!channel || !welcomeChannel) return;
+
   // Send the message, mentioning the member
   channel.send(`Welcome to the ${member.guild.name} Discord server, ${member}! Be sure to check out the ${welcomeChannel} channel for helpful server information.`)
 })
