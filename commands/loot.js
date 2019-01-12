@@ -1,14 +1,15 @@
+const {log} = require('../Utils');
+
 const b = .033
 const c = .01
 
 function damage(hp) {
   const bLoot = hp * b
   const cLoot = hp * c
-  const result = {
+  return {
     b: bLoot,
     c: cLoot
   }
-  return result
 }
 
 const getMessage = (data) => {
@@ -21,13 +22,14 @@ const getMessage = (data) => {
 }
 
 module.exports = {
-  name: 'titan-loot',
+  name: 'loot',
+  aliases:['titan-loot'],
   description: 'Calculate damage needed for various titan loot tiers',
   args: true,
   execute(message, args) {
     const hp = args[0]
     const dmg = damage(hp)
     const msg = getMessage(dmg)
-    message.channel.send(msg).then(() => console.log(`Successfully sent reply for titan loot`)).catch(error => console.error(error.message))
+    message.channel.send(msg).then((msg) => log(`Successfully sent reply for titan loot to server: ${msg.guild.name}, in channel: ${msg.channel.name}`)).catch(error => console.error(error.message))
   }
 }

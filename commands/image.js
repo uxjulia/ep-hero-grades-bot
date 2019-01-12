@@ -22,6 +22,8 @@ const getImage = async(hero, message) => {
     }).catch(() => {
       console.error('Image not in AWS, getting image URL locally');
       try {
+        // Try getting the image from one of the URLs listed in local images file.
+        // TODO: Remove retrieving local URLS once all hero images have been updated.
         let url = images.local[hero]
         if (url === undefined) {
           return message.reply(`Hmm. I can't seem to find an image for '${hero}'. Please try again`)
@@ -39,7 +41,7 @@ const getImage = async(hero, message) => {
     })
   }
   catch(error) {
-    console.log(error.message)
+    console.error(error);
     message.reply('Uh oh. Something went wrong. Please try again.')
   }
 }
@@ -55,7 +57,7 @@ module.exports = {
         return getImage(hero, message);
       }
       catch(error) {
-        console.log(error)
+        console.error(error)
         message.reply('Uh oh. Something went wrong. Please try again.')
       }
     }

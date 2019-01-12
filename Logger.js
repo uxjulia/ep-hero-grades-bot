@@ -1,3 +1,5 @@
+const {log} = require('./Utils');
+
 const info = function (message, data) {
   message.channel.send(
     `Here's some information on ${data.heroName}:
@@ -14,8 +16,8 @@ Defense grade: **${data.oDefense}**
 Offense grade: **${data.oOffense}**
 __
 ${data.heroName}'s overall grade is **${data.overallGrade}**`
-  ).then(() => console.log('Successfully retrieved info for', data.heroName))
-  .catch(error => console.error(error.message));
+  ).then(() => log(`Successfully retrieved info for ${data.heroName}`))
+  .catch(error => console.error(error.message))
 };
 
 const titan = function (message, data) {
@@ -30,7 +32,7 @@ const titan = function (message, data) {
 __
 ${data.heroName}'s overall **titan** grade is **${data.overallGrade}**`
   )
-    .then(() => console.log('Successfully retrieved titan data for', data.heroName))
+    .then(() => log(`Successfully retrieved titan data for ${data.heroName}`))
     .catch(error => console.error(error.message));
 };
 
@@ -47,7 +49,7 @@ const defense = function (message, data) {
 __
 ${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`
   )
-    .then(() => console.log('Successfully retrieved defense data for', data.heroName))
+    .then(() => log(`Successfully retrieved defense data for ${data.heroName}`))
     .catch(error => console.error(error.message));
 };
 
@@ -63,14 +65,14 @@ const offense = function (message, data) {
 __
 ${data.heroName}'s overall **offense** grade is **${data.overallGrade}**`
   )
-  .then(() => console.log('Successfully retrieved offense data for', data.heroName))
+  .then(() => log(`Successfully retrieved offense data for ${data.heroName}`))
   .catch(error => console.error(error.message));
 };
 
 const withImage = function(image, message, isUpdated) {
   console.log('Successfully retrieved image')
   const messageWithNote = 'Note: This image needs to be updated'
-  return isUpdated===false ? message.channel.send(messageWithNote, image) : message.channel.send(image)
+  return isUpdated===false ? message.channel.send(messageWithNote, image).then(() => log('Successfully sent image')).catch(error => console.error(error)) : message.channel.send(image).then(() => log('Successfully sent image')).catch(error => console.error(error))
 };
 
 const success = {info, titan, defense, offense, withImage };
@@ -78,7 +80,7 @@ const success = {info, titan, defense, offense, withImage };
 const error =  function(hero, err, message) {
   if (message) {
     message.channel.send(`An error occurred while retrieving ${hero}`)
-    .then(() => console.log(`An error occurred while retrieving ${hero} with error: ${err}`))
+    .then(() => log(`An error occurred while retrieving ${hero} with error: ${err}`))
     .catch(error => console.error(error.message));
   }
 };
@@ -86,7 +88,7 @@ const error =  function(hero, err, message) {
 const noData = function(message, data) {
   console.error(`No record found for ${data}`)
   message.reply('Uh oh. I can\'t seem to find that hero. If I should know this hero, please let my master <@!342706933389852672> know to add this hero.')
-  .then(() => console.log(`Successfully responded to channel with error message`))
+  .then(() => log("Successfully responded to channel with error message"))
   .catch(error => console.error(error.message));
 };
 
