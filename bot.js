@@ -3,6 +3,7 @@ const fs = require('fs')
 const Discord = require('discord.js')
 const prefix = process.env.PREFIX
 const token = process.env.TOKEN
+const {log} = require('./Utils')
 
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
@@ -14,7 +15,7 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-  console.log(`Ready!`)
+  log(`Ready!`)
 })
 
 client.on('guildMemberAdd', member => {
@@ -34,13 +35,14 @@ client.on('message', message => {
   const commandName = args.shift().toLowerCase()
   if (!client.commands.has(commandName)) return
   const command = client.commands.get(commandName)
-  console.log(`Executing command: ${command.name} ...`)
-    try {
-      command.execute(message, args)
-    }
-    catch (err) {
-      console.error('Something went wrong while executing the command', err)
-    }
+  try {
+    log(`Executing command ${command.name.toUpperCase()} initiated from server: ${message.guild.name.toUpperCase()} in channel: ${message.channel.name.toUpperCase()}`)
+    command.execute(message, args)
+  }
+  catch (err) {
+    log(`Something went wrong while executing the command: ${command}`)
+    log(err);
+  }
 })
 
-client.login(token).then(() => console.log('Successfully logged in'));
+client.login(token).then(() => log('Successfully logged in'));

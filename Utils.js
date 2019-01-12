@@ -3,8 +3,14 @@ function getHeroName(args) {
   for (let i = 1; i < args.length; i++) {
     name = name.concat(' ', args[i])
   }
-  const hero = name.toLowerCase()
-  return hero
+  return name.toLowerCase()
 }
 
-module.exports = {getHeroName}
+function log(message) {
+  const timestamp = new Date().toLocaleTimeString();
+  const date = new Date().toLocaleDateString();
+  const m = `${date} - ${timestamp}: ${message}`
+  console.log(m)
+}
+
+module.exports = {getHeroName, log}
