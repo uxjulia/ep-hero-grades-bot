@@ -15,6 +15,8 @@ function getHeroData(hero, record, message) {
   data.oDefense = record.get('Overall Defense')[0]
   data.oOffense = record.get('Overall Offense')[0]
   data.element = record.get('Element')[0]
+  data.class = record.get('Class')[0]
+  data.family = record.get('Family')
   data.stars = record.get('Stars')[0]
   data.power = record.get('Power')[0]
   data.attack = record.get('Attack')[0]
@@ -31,7 +33,7 @@ function getInfo(hero, message) {
   let count = 0
   overview.select({
     view: 'Grid view',
-    filterByFormula: `TRUE({Name} = '${hero}')`,
+    filterByFormula: `TRUE({ID} = '${hero}')`,
   }).eachPage(
     function page(records, fetchNextPage) {
       records.forEach(function (record) {
