@@ -1,3 +1,8 @@
+/**
+ * Parse the hero name given by the command
+ * @param args
+ * @returns {string}
+ */
 function getHeroName(args) {
   let name = args[0]
   for (let i = 1; i < args.length; i++) {
@@ -6,6 +11,10 @@ function getHeroName(args) {
   return name.toLowerCase()
 }
 
+/**
+ * Log a system message to the console with date and timestamp.
+ * @param message
+ */
 function log(message) {
   const timestamp = new Date().toLocaleTimeString();
   const date = new Date().toLocaleDateString();
