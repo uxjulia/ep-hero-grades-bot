@@ -74,7 +74,6 @@ ${data.heroName}'s overall **offense** grade is **${data.overallGrade}**`
 };
 
 const withImage = function(image, message, isUpdated) {
-  console.log('Successfully retrieved image')
   const messageWithNote = 'Note: This image needs to be updated'
   return isUpdated===false ? message.channel.send(messageWithNote, image).then(() => log('Successfully sent image')).catch(error => console.error(error)) : message.channel.send(image).then(() => log('Successfully sent image')).catch(error => console.error(error))
 };

@@ -5,7 +5,7 @@ const Canvas = require('canvas')
 const Logger = require('../Logger');
 const canvas = Canvas.createCanvas(459, 680);
 const ctx = canvas.getContext('2d');
-const {getHeroName} = require('../Utils')
+const {getHeroName, log} = require('../Utils')
 
 const getImage = async(hero, message) => {
   const sendToDiscord = (inAws) => {
@@ -18,6 +18,7 @@ const getImage = async(hero, message) => {
     let awsImage = Canvas.loadImage(`https://s3.amazonaws.com/ep-heroes/${awsName}.png`)
     awsImage.then((img) => {
       ctx.drawImage(img, 0, 0)
+      log(`Sending image for ${hero}...`);
       sendToDiscord(true)
     }).catch(() => {
       console.error('Image not in AWS, getting image URL locally');
