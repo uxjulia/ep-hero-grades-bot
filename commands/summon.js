@@ -1,58 +1,42 @@
-const Random = require('random-js')
-const mt = Random.engines.mt19937()
-const random = new Random(mt.autoSeed())
 const heroes = require('../heroes')
+const Chance = require('chance');
 
-//TODO: Add appearance rate for Elemental and Atlantis summons.
-/**
- * The appearance rate of heroes for an Epic summon
- * @type {{hotm: number, legendary: number, epic: number, rare: number}}
- */
-const rate = {
-  hotm: 1.3,
-  legendary: 1.5,
-  epic: 28,
-  rare: 100
+const chance = new Chance();
+
+const pullType = {
+  classic: ['Legendary', 'Epic', 'Rare'],
+  atlantis: ['Legendary', 'Epic', 'Rare', 'Rare Atlantis', 'Epic Atlantis', 'Legendary Atlantis', 'Featured Legendary']
+}
+
+const appearanceRates = {
+  classic: [1.5, 26.5, 72],
+  atlantis: [1, 11.9, 21.8, 49.2, 14.6, 0.2, 1.3]
 }
 
 /**
  * Represents a summon
  * @constructor
- * @param {string} option - One of [epic, elemental, atlantis]
- * @param {string} element - One of [fire, ice, holy, dark, nature]
+ * @param {string} optional count of 10
+ * @param {string} optional option - One of [classic, atlantis]
  */
 class Summon {
-  constructor(option = 'epic', element = '') {
+  constructor(count = '1', option = 'classic') {
     this.option = option
-    this.element = element
+    this.count = count
   }
 
-  static randomize(min, max) {
-    return Math.floor(random.real(min, max))
-  }
-
-  static rarity() {
-    const outcome = Summon.randomize(0, 100)
-    let r = 'rare'
-    if (outcome < rate.legendary) {
-      r = 'legendary'
-    } else if (outcome > rate.legendary && outcome <= rate.epic) {
-      r = 'epic'
-    } else if (outcome > rate.epic && outcome <= rate.rare) {
-      r = 'rare'
-    }
-    return r
+  static rarity(opt) {
+    return chance.weighted(pullType[opt], appearanceRates[opt])
   }
 
   static allowBonusDraw() {
-    return Random.bool(.013)(mt)
+    return chance.weighted([true, false],[1.3, 98.7])
   }
 
-  static getHero() {
-    let r = Summon.rarity()
-    let length = heroes[r].length
-    const rdm = Summon.randomize(0, length)
-    let hero = `${heroes[r][rdm]} (**${r}**)`
+  static getHero(opt) {
+    let option = opt !== 'atlantis' ? 'classic' : opt
+    let r = Summon.rarity(option);
+    let hero = `${chance.pickone(heroes[r])} (**${r}**)`
     let allowBonus = Summon.allowBonusDraw()
     let result = hero
     if (allowBonus !== false) {
@@ -64,14 +48,18 @@ class Summon {
   pull() {
     const msg = `Here is the result of your summon: \n`
     const heroes = []
-    if (this.option === '10') {
+    if (this.count === '10') {
       let x = 10
       for (let i = 0; i < x; i++) {
-        heroes.push(`${i + 1}) ${Summon.getHero()}`)
+        heroes.push(`${i + 1}) ${Summon.getHero(this.option)}`)
       }
       return msg + heroes.join('\n')
     }
-    heroes.push(Summon.getHero())
+    if (this.count === 'atlantis') { // Check if the first parameter passed is actually the summon type (for a single Atlantis pull).
+      heroes.push(Summon.getHero('atlantis'))
+      return msg + heroes
+    }
+    heroes.push(Summon.getHero('classic'))
     return msg + heroes
   }
 }

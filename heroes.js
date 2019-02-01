@@ -1,5 +1,5 @@
 module.exports = {
-  'rare': [
+  'Rare': [
     'Tyrum',
     'Oberon',
     'Prisca',
@@ -25,7 +25,7 @@ module.exports = {
     'Carver',
     'Berden',
   ],
-  'epic': [
+  'Epic': [
     'Sabina',
     'Cyprian',
     'Tiburtus',
@@ -49,7 +49,7 @@ module.exports = {
     'Little John',
     'Kashhrek',
   ],
-  'legendary': [
+  'Legendary': [
     'Sartana',
     'Domitia',
     'Quintus',
@@ -70,5 +70,36 @@ module.exports = {
     'Lianna',
     'Elkanen',
     'Kadilen',
+  ],
+  'Rare Atlantis': [
+    'Gill-Ra',
+    'Chochin',
+    'Mnesseus',
+    'Gato',
+    'Namahage',
+    'Melia',
+  ],
+  'Epic Atlantis': [
+    'Ameonna',
+    'Proteus',
+    'Agwe',
+    'Gadeirus',
+    'Triton',
+    'Wilbur',
+    'Gobbler',
+    'Sumitomo',
+    'Danzaburo',
+  ],
+  'Legendary Atlantis': [
+    'Mok-Arr',
+    'Tarlak',
+    'Misandra',
+    'Kageburado',
+    'Mitsuko',
+    'Inari',
+  ],
+  'Featured Legendary': [
+    'FEATURED HERO'
   ]
 }
+
