@@ -14,7 +14,10 @@ Example usage: `!info Elena`
 
 ### Additional Commands
 * `!summon` - Simulate an epic hero summon
+* `!summon atlantis` - Simulate an Atlantis portal summon
 * `!summon 10` - Simulate a 10-pull epic hero summon
+* `!summon 10 atlantis` - Simulate a 10-pull Atlantis portal summon
+
 * `!levels [element]` - Lists the best level(s) for fighting the specified elemental monsters
 
 Example: `!levels holy`
