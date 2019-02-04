@@ -4,13 +4,13 @@ const Chance = require('chance');
 const chance = new Chance();
 
 const pullType = {
-  classic: ['Legendary', 'Epic', 'Rare'],
-  atlantis: ['Legendary', 'Epic', 'Rare', 'Rare Atlantis', 'Epic Atlantis', 'Legendary Atlantis', 'Featured Legendary']
+  CLASSIC: ['Legendary', 'Epic', 'Rare'],
+  ATLANTIS: ['Legendary', 'Epic', 'Rare', 'Rare Atlantis', 'Epic Atlantis', 'Legendary Atlantis', 'Featured Legendary']
 }
 
 const appearanceRates = {
-  classic: [1.5, 26.5, 72],
-  atlantis: [1, 11.9, 21.8, 49.2, 14.6, 0.2, 1.3]
+  CLASSIC: [1.5, 26.5, 72],
+  ATLANTIS: [1, 11.9, 21.8, 49.2, 14.6, 0.2, 1.3]
 }
 
 /**
@@ -20,8 +20,8 @@ const appearanceRates = {
  * @param {string} optional option - One of [classic, atlantis]
  */
 class Summon {
-  constructor(count = '1', option = 'classic') {
-    this.option = option
+  constructor(count = '1', option = 'CLASSIC') {
+    this.option = option.toUpperCase()
     this.count = count
   }
 
@@ -34,7 +34,7 @@ class Summon {
   }
 
   static getHero(opt) {
-    let option = opt !== 'atlantis' ? 'classic' : opt
+    let option = opt !== 'ATLANTIS' ? 'CLASSIC' : opt
     let r = Summon.rarity(option);
     let hero = `${chance.pickone(heroes[r])} (**${r}**)`
     let allowBonus = Summon.allowBonusDraw()
@@ -55,11 +55,11 @@ class Summon {
       }
       return msg + heroes.join('\n')
     }
-    if (this.count === 'atlantis') { // Check if the first parameter passed is actually the summon type (for a single Atlantis pull).
-      heroes.push(Summon.getHero('atlantis'))
+    if (this.count.toUpperCase() === 'ATLANTIS') { // Check if the first parameter passed is actually the summon type (for a single Atlantis pull).
+      heroes.push(Summon.getHero('ATLANTIS'))
       return msg + heroes
     }
-    heroes.push(Summon.getHero('classic'))
+    heroes.push(Summon.getHero('CLASSIC'))
     return msg + heroes
   }
 }
