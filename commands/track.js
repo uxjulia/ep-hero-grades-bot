@@ -71,7 +71,6 @@ function ocr(message, fileName) {
       const jsonBody = JSON.parse(body)
       if (jsonBody.IsErroredOnProcessing === false) {
         const parsedText = jsonBody.ParsedResults[0].ParsedText
-        console.log('parsed text', parsedText)
         resolve(parsedText)
       }
       resolve(false)
