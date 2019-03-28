@@ -10,11 +10,12 @@
   "author": "uxjulia@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "airtable": "^0.5.8",
+    "airtable": "^0.5.10",
     "canvas": "^2.3.1",
     "chance": "^1.0.18",
     "discord.js": "^11.4.2",
     "dotenv": "^6.2.0",
+    "jimp": "^0.6.0",
     "random-js": "^1.0.8"
   }
 }
