@@ -16,6 +16,7 @@
     "discord.js": "^11.4.2",
     "dotenv": "^6.2.0",
     "jimp": "^0.6.0",
-    "random-js": "^1.0.8"
+    "random-js": "^1.0.8",
+    "request": "^2.88.0"
   }
 }

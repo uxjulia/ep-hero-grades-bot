@@ -1,84 +1,52 @@
 const {log} = require('../Utils')
-const request = require('request')
-const Jimp = require('jimp')
-const fs = require('fs')
-const path = require('path')
+const request = require('request');
 
-async function trackData(message, date) {
-  const fileName = `${message.channel.name}-img.jpg`
-  await compressImage(message.attachments.first().url, fileName)
-  log('Compressed')
-  let parsedText = await ocr(message, fileName)
-
-  if (parsedText && parsedText !== false && parsedText.length > 0) {
-    log('Posting data..')
-    const response = await postTitanData(parsedText, date)
-    message.channel.send(response)
-  } else {
-    log('Error getting OCR')
-    message.channel.send(parsedText)
-  }
-}
-
-function compressImage(imageUrl, filename) {
-  log('Compressing')
-  return new Promise((resolve) => {
-    Jimp.read(imageUrl).then(image => {
-      resolve(
-        image.quality(95).write(filename)
-      )
-    }).catch(err => {
-      throw err
-    })
-  })
-}
-
-function postTitanData(parsedText, date) {
-  log('Sending to Google')
+const postTitanData = async(parsedText, date) => {
+  log ('Sending to Google Sheets');
   return new Promise((resolve, reject) => {
-    const url = process.env.GSCRIPTURL
-
+    const url = process.env.GSCRIPTURL;
     const form = {
       data: parsedText,
       date: date,
+      option: "track",
     }
-
-    request.post({url: url, form: form}, function optionalCallback(err, httpResponse, body) {
+    request.post({url: url, formData: form}, function optionalCallback(err, httpResponse, body) {
       if (err) {
-        log('Error posting titan data: ' + err)
-        reject(err)
+        log(err);
+        reject(err);
       }
-      log('Successfully sent to Google')
-      resolve('Successfully posted data')
+      log('Successfully posted to Google Sheets');
+      resolve('Successfully posted to Google Sheets');
     })
   })
 }
 
-function ocr(message, fileName) {
-  log('Running OCR')
+const fetchOCRText = async(fileUrl) => {
+  log('Getting OCR Text');
   return new Promise((resolve, reject) => {
-    const url = process.env.OCRURL
-    const headers = {
-      'apikey': process.env.OCRAPIKEY,
-      'Content-Type': 'application/x-www-form-urlencoded'
+    const form = {
+      "isTable": "true",
+      "url": fileUrl,
+      "filetype": 'JPG'
     }
-
-    const r = request.post({url: url, headers: headers}, function optionalCallback(err, httpResponse, body) {
+    request.post({
+      url: process.env.OCRURL,
+      headers: {
+        'apiKey': process.env.OCRAPIKEY,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      formData: form
+    }, function optionalCallback(err, httpResponse, body) {
       if (err) {
-        log('upload failed:' + err)
+        log(err)
         reject(err)
       }
-      const jsonBody = JSON.parse(body)
-      if (jsonBody.IsErroredOnProcessing === false) {
-        const parsedText = jsonBody.ParsedResults[0].ParsedText
-        resolve(parsedText)
+      const json = JSON.parse(body)
+      if (json.IsErroredOnProcessing) {
+        return false
       }
-      resolve(false)
+      resolve(json.ParsedResults[0].ParsedText)
     })
-
-    const form = r.form()
-    form.append('isTable', 'true')
-    form.append('file', fs.createReadStream(path.join(__dirname + '/../', `${fileName}`)))
   })
 }
 
@@ -87,47 +55,32 @@ module.exports = {
   description: 'Track Titan/AW scores',
   args: true,
   execute(message, args) {
-
     if (!args.length) {
       log('Invalid Arguments: ' + args.length)
       message.reply('Invalid # of arguments. Sample command !track titan [date]')
       return
     }
-
     const option = args[0]
     const date = args[1] === undefined ? new Date().toLocaleDateString() : args[1]
     if (!['TITAN', 'WAR'].includes(option.toUpperCase())) {
       log('Invalid option')
       message.reply('Invalid tracking option. Valid options include: [Titan, War]')
     }
-    //
-    // let stars, element, name;
-    // stars = args[1] === undefined ? "" : args[1];
-    // element = args[2] === undefined ? "" : args[2];
-    // name = args[3] === undefined ? "" : args[3];
-
-    // if (option.toUpperCase() === "TITAN") {
-    //   if (isNaN(stars) || stars < 0 || stars > 14) {
-    //     log("Invalid # of stars: " + stars);
-    //     message.reply("Invalid # of stars. Sample command !track titan 12 dark onyx-dragon");
-    //     return;
-    //   }
-    //
-    //   if (!["FIRE", "ICE", "NATURE", "HOLY", "DARK"].includes(element.toUpperCase())) {
-    //     log("Invalid Titan element: " + element);
-    //     message.reply("Invalid titan element. Sample command !track titan 12 dark onyx-dragon");
-    //     return;
-    //   }
-    // }
 
     if (message.attachments.size === 1) {
-      log(`Received file name: ${message.attachments.first().filename}`)
-      log(`Received file size: ${message.attachments.first().filesize}`)
-      log(`Received file url : ${message.attachments.first().url}`)
+      const file = message.attachments.first();
+      const url = message.attachments.first().url;
+      log(`Received file name: ${file.filename} with url: \n ${file.url}`)
 
-      trackData(message, date).then().catch(err => log(err))
-
+      const postToSheets = async (fileUrl) => {
+        const data = await fetchOCRText(fileUrl);
+        message.reply(`OCR result:\n ${data}`);
+        const response = await postTitanData(data, date);
+        return response;
+      }
+      postToSheets(url).then(msg => message.reply(msg)).catch(error => {
+        log(error)
+      });
     }
-
   },
 }
