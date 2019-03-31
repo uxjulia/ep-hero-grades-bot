@@ -41,7 +41,7 @@ module.exports = {
     // Check if a specific date was provided
     const captureDate = /(?<=--date\s|--d\s)(\S+)/ig;
     const hasDate = RegExp('--date|--d').test(messageText);
-    let date = hasDate === true ? messageText.match(captureDate)[0] : undefined;
+    let date = hasDate === true ? messageText.match(captureDate)[0] : "";
 
     // Prepare the form data
     const formData = {
