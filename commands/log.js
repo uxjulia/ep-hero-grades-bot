@@ -13,7 +13,7 @@ const postToGoogle = async(data) => {
         log(err)
         reject(err)
       }
-      resolve("Successfully posted to Google")
+      resolve("Successfully posted to Google Sheets")
     })
   })
 }
@@ -25,14 +25,14 @@ module.exports = {
   execute(message, args) {
     if (!args.length) {
       log('Invalid Arguments: ' + args.length)
-      message.reply('Invalid # of arguments. Sample command !log ancient-tiger red 10 3158000 --rare --date 03/28/2019')
+      message.send('Invalid # of arguments. Sample command !log ancient-tiger red 10 3158000 --rare --date 03/28/2019')
       return
     }
     const messageText = message.content;
     const titanName = args[0];
-    const color = args[1];
-    const stars = args[2];
-    const hp = args[3];
+    const color = args[1] === undefined ? "" : args[1];
+    const stars = args[2] === undefined ? "" : args[2];
+    const hp = args[3] === undefined ? "" : args[3];
 
     // Check if the titan is marked as "rare"
     const isRare = RegExp('--rare').test(messageText);
@@ -43,9 +43,17 @@ module.exports = {
     const hasDate = RegExp('--date|--d').test(messageText);
     let date = hasDate === true ? messageText.match(captureDate)[0] : "";
 
+    // Check if this should be an update to an existing record
+    let option = titanName.toUpperCase() === "UPDATE" ? "UPDATE" : "LOG";
+    if (option === "UPDATE") {
+      // Reject if the update argument is not one of 'Killed' or 'Escaped'
+      if (!['KILLED', 'ESCAPED'].includes(color.toUpperCase())) {
+        message.send('Invalid update option. Valid options include: [KILLED, ESCAPED]');
+      }
+    }
     // Prepare the form data
     const formData = {
-      "option": "log",
+      "option": option,
       "titan": titanName,
       "color": color,
       "stars": stars,
@@ -59,7 +67,7 @@ module.exports = {
       return response;
     }
 
-    postToSheets(formData).then(msg => message.reply(msg)).catch(error => {
+    postToSheets(formData).then(msg => message.send(msg)).catch(error => {
       log('error posting', error)
     });
 

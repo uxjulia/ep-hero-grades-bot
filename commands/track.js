@@ -57,11 +57,12 @@ module.exports = {
   execute(message, args) {
     if (!args.length) {
       log('Invalid Arguments: ' + args.length)
-      message.reply('Invalid # of arguments. Sample command !track titan [date]')
+      message.send('Invalid # of arguments. Sample command !track titan [date]')
       return
     }
     const option = args[0]
     const date = args[1] === undefined ? "" : args[1];
+
     if (!['TITAN', 'WAR'].includes(option.toUpperCase())) {
       log('Invalid option')
       message.reply('Invalid tracking option. Valid options include: [Titan, War]')
@@ -78,7 +79,7 @@ module.exports = {
         const response = await postTitanData(data, date);
         return response;
       }
-      postToSheets(url).then(msg => message.reply(msg)).catch(error => {
+      postToSheets(url).then(msg => message.send(msg)).catch(error => {
         log(error)
       });
     }
