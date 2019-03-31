@@ -25,7 +25,7 @@ module.exports = {
   execute(message, args) {
     if (!args.length) {
       log('Invalid Arguments: ' + args.length)
-      message.reply('Invalid # of arguments. Sample command !log ancient-tiger red 10 3158000 --rare -date 03/28/2019')
+      message.reply('Invalid # of arguments. Sample command !log ancient-tiger red 10 3158000 --rare --date 03/28/2019')
       return
     }
     const messageText = message.content;
@@ -41,7 +41,7 @@ module.exports = {
     // Check if a specific date was provided
     const captureDate = /(?<=--date\s|--d\s)(\S+)/ig;
     const hasDate = RegExp('--date|--d').test(messageText);
-    let date = hasDate === true ? messageText.match(captureDate)[0] : new Date().toLocaleDateString();
+    let date = hasDate === true ? messageText.match(captureDate)[0] : undefined;
 
     // Prepare the form data
     const formData = {

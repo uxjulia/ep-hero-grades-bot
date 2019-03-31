@@ -61,7 +61,7 @@ module.exports = {
       return
     }
     const option = args[0]
-    const date = args[1] === undefined ? new Date().toLocaleDateString() : args[1]
+    const date = args[1]
     if (!['TITAN', 'WAR'].includes(option.toUpperCase())) {
       log('Invalid option')
       message.reply('Invalid tracking option. Valid options include: [Titan, War]')
