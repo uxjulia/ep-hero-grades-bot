@@ -57,7 +57,7 @@ module.exports = {
   execute(message, args) {
     if (!args.length) {
       log('Invalid Arguments: ' + args.length)
-      message.send('Invalid # of arguments. Sample command !track titan [date]')
+      message.channel.send('Invalid # of arguments. Sample command !track titan [date]')
       return
     }
     const option = args[0]
@@ -65,7 +65,7 @@ module.exports = {
 
     if (!['TITAN', 'WAR'].includes(option.toUpperCase())) {
       log('Invalid option')
-      message.reply('Invalid tracking option. Valid options include: [Titan, War]')
+      message.channel.send('Invalid tracking option. Valid options include: [Titan, War]')
     }
 
     if (message.attachments.size === 1) {
@@ -75,11 +75,11 @@ module.exports = {
 
       const postToSheets = async (fileUrl) => {
         const data = await fetchOCRText(fileUrl);
-        message.reply(`OCR result:\n ${data}`);
+        message.channel.send(`OCR result:\n ${data}`);
         const response = await postTitanData(data, date);
         return response;
       }
-      postToSheets(url).then(msg => message.send(msg)).catch(error => {
+      postToSheets(url).then(msg => message.channel.send(msg)).catch(error => {
         log(error)
       });
     }

@@ -25,7 +25,7 @@ module.exports = {
   execute(message, args) {
     if (!args.length) {
       log('Invalid Arguments: ' + args.length)
-      message.send('Invalid # of arguments. Sample command !log ancient-tiger red 10 3158000 --rare --date 03/28/2019')
+      message.channel.send('Invalid # of arguments. Sample command !log ancient-tiger red 10 3158000 --rare --date 03/28/2019')
       return
     }
     const messageText = message.content;
@@ -48,7 +48,7 @@ module.exports = {
     if (option === "UPDATE") {
       // Reject if the update argument is not one of 'Killed' or 'Escaped'
       if (!['KILLED', 'ESCAPED'].includes(color.toUpperCase())) {
-        message.send('Invalid update option. Valid options include: [KILLED, ESCAPED]');
+        message.channel.send('Invalid update option. Valid options include: [KILLED, ESCAPED]');
       }
     }
     // Prepare the form data
@@ -67,7 +67,7 @@ module.exports = {
       return response;
     }
 
-    postToSheets(formData).then(msg => message.send(msg)).catch(error => {
+    postToSheets(formData).then(msg => message.channel.send(msg)).catch(error => {
       log('error posting', error)
     });
 
