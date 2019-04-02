@@ -1,7 +1,7 @@
 const {log} = require('../Utils')
 const request = require('request');
 
-const postTitanData = async(parsedText, date) => {
+const postData = async(dataType, parsedText, date) => {
   log ('Sending to Google Sheets');
   return new Promise((resolve, reject) => {
     const url = process.env.GSCRIPTURL;
@@ -9,6 +9,7 @@ const postTitanData = async(parsedText, date) => {
       data: parsedText,
       date: date,
       option: "track",
+      dataType: dataType,
     }
     request.post({url: url, formData: form}, function optionalCallback(err, httpResponse, body) {
       if (err) {
@@ -60,12 +61,12 @@ module.exports = {
       message.channel.send('Invalid # of arguments. Sample command !track titan [date]')
       return
     }
-    const option = args[0]
+    const dataType = args[0]
     const date = args[1] === undefined ? "" : args[1];
 
-    if (!['TITAN', 'WAR'].includes(option.toUpperCase())) {
-      log('Invalid option')
-      message.channel.send('Invalid tracking option. Valid options include: [Titan, War]')
+    if (!['TITAN', 'WAR'].includes(dataType.toUpperCase())) {
+      log('Invalid tracking data type')
+      message.channel.send('Invalid tracking data type. Valid data type options include: [Titan, War]')
     }
 
     if (message.attachments.size === 1) {
@@ -76,7 +77,7 @@ module.exports = {
       const postToSheets = async (fileUrl) => {
         const data = await fetchOCRText(fileUrl);
         message.channel.send(`OCR result:\n ${data}`);
-        const response = await postTitanData(data, date);
+        const response = await postData(dataType, data, date);
         return response;
       }
       postToSheets(url).then(msg => message.channel.send(msg)).catch(error => {
