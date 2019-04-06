@@ -13,7 +13,13 @@ const postToGoogle = async(data) => {
         log(err)
         reject(err)
       }
-      resolve("Successfully posted to Google Sheets")
+      if (data.hp) {
+        let bLoot;
+        bLoot = data.hp * .033
+        resolve(`Successfully posted to Google Sheets. B Loot = ${bLoot}`);
+      } else {
+        resolve("Successfully posted to Google Sheets")
+      }
     })
   })
 }
