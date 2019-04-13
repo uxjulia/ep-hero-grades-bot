@@ -19,6 +19,7 @@ Example usage: `!info Elena`
 * `!summon 10 atlantis` - Simulate a 10-pull Atlantis portal summon
 
 * `!levels [element]` - Lists the best level(s) for fighting the specified elemental monsters
+* `!emojis` - Get the list of emoji codes for in-game chat
 
 Example: `!levels holy`
 
