@@ -10,6 +10,7 @@ const data = {
 
 module.exports = {
   name: 'levels',
+  aliases: 'level',
   description: 'Get best levels for filling elemental chests',
   args: true,
   execute(message, args) {
