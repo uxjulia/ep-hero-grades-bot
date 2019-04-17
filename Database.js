@@ -33,7 +33,6 @@ function getInfo(hero, message) {
   let count = 0
   overview.select({
     view: 'Grid view',
-    filterByFormula: `TRUE({ID} = '${hero}')`,
   }).eachPage(
     function page(records, fetchNextPage) {
       records.forEach(function (record) {
@@ -65,7 +64,6 @@ function getTitan(hero, message) {
   let count = 0
   titanBase.select({
     view: 'Grid view',
-    filterByFormula: `TRUE({ID} = '${hero}')`,
   }).eachPage(
     function page(records, fetchNextPage) {
       records.forEach(function (record) {
@@ -100,7 +98,6 @@ function getDefense(hero, message) {
   let count = 0
   defenseBase.select({
     view: 'Grid view',
-    filterByFormula: `TRUE({ID} = '${hero}')`,
   }).eachPage(
     function page(records, fetchNextPage) {
       records.forEach(function (record) {
@@ -136,7 +133,6 @@ function getOffense(hero, message) {
   let count = 0
   offenseBase.select({
     view: 'Grid view',
-    filterByFormula: `TRUE({ID} = '${hero}')`,
   }).eachPage(
     function page(records, fetchNextPage) {
       records.forEach(function (record) {
