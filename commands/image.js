@@ -3,17 +3,21 @@ const Discord = require('discord.js');
 const images = require('../images')
 const Canvas = require('canvas')
 const Logger = require('../Logger');
-const canvas = Canvas.createCanvas(459, 680);
-const ctx = canvas.getContext('2d');
+
 const {getHeroName, log} = require('../Utils')
 
 const getImage = async(hero, message) => {
-  const sendToDiscord = (inAws) => {
-    const image = new Discord.Attachment(canvas.toBuffer(), `${hero}.png`);
-    Logger.success['withImage'](image, message, inAws);
-  }
-
   try {
+      const canvas = Canvas.createCanvas(460, 680);
+      const ctx = canvas.getContext("2d");
+      const sendToDiscord = inAws => {
+        const image = new Discord.Attachment(
+          canvas.toBuffer(),
+          `${hero}.png`
+        );  
+        Logger.success["withImage"](image, message, inAws);
+      };
+
     const awsName = hero.replace(/\s/g,'') // Remove white space for AWS
     let awsImage = Canvas.loadImage(`${process.env.AWSHEROESURL}/${awsName}.png`)
     awsImage.then((img) => {
