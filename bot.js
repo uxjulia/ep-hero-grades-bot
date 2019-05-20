@@ -22,10 +22,15 @@ client.on('message', message => {
   if (!message.content.startsWith(prefix) || message.author.bot) return
   const args = message.content.slice(prefix.length).split(/ +/)
   const commandName = args.shift().toLowerCase()
+  if (commandName.length === 0) return // Exit if an empty command was sent
+
   const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
   if (!command) return
   try {
     log(`Executing command ${command.name.toUpperCase()} initiated from server: ${message.guild.name.toUpperCase()} in channel: ${message.channel.name.toUpperCase()}`)
+    if (command.args === true && !args.length) {
+      return message.channel.send("No arguments were provided for this command. Please try again")
+    }
     command.execute(message, args)
   }
   catch (err) {
