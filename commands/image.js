@@ -21,7 +21,7 @@ const getImage = async(hero, message) => {
     const awsName = hero.replace(/\s/g,'') // Remove white space for AWS
     let awsImage = Canvas.loadImage(`${process.env.AWSHEROESURL}/${awsName}.png`)
     awsImage.then((img) => {
-      ctx.drawImage(img, 0, 0)
+      ctx.drawImage(img, 0, 0, 460, 680)
       log(`Sending image for ${hero}...`);
       sendToDiscord(true)
     }).catch(() => {
