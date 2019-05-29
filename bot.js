@@ -19,7 +19,7 @@ client.once('ready', () => {
 })
 
 client.on('message', message => {
-  if (!message.content.startsWith(prefix) return
+  if (!message.content.startsWith(prefix)) return
   const args = message.content.slice(prefix.length).split(/ +/)
   const commandName = args.shift().toLowerCase()
   if (commandName.length === 0) return // Exit if an empty command was sent
