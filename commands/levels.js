@@ -1,11 +1,11 @@
 const { log } = require("../Utils");
 
 const data = {
-  fire: "20-4, 19-6, 19-4, 11-6, 6-8",
-  ice: "8-7, 14-5",
-  nature: "7-5",
-  holy: "10-6, 12-9",
-  dark: "7-4, 5-5"
+  fire: "S2: 3-4, 3-8; S1: 20-4, 19-6, 19-4, 11-6, 6-8",
+  ice: "S1: 8-7, 14-5",
+  nature: "S1: 7-5",
+  holy: "S1: 10-6, 12-9",
+  dark: "S1: 7-4, 5-5"
 };
 
 module.exports = {
