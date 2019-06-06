@@ -1,7 +1,7 @@
 const { log } = require("../Utils");
 
 const data = {
-  fire: "S2: 3-4, 3-8; S1: 20-4, 19-6, 19-4, 11-6, 6-8",
+  fire: "\nS2: 3-4, 3-8 \nS1: 20-4, 19-6, 19-4, 11-6, 6-8",
   ice: "S1: 8-7, 14-5",
   nature: "S1: 7-5",
   holy: "S1: 10-6, 12-9",
@@ -15,6 +15,12 @@ module.exports = {
   args: true,
   execute(message, args) {
     let element = args[0].toUpperCase();
+    if (!["FIRE", "HOLY", "ICE", "DARK", "NATURE"].includes(element)) {
+      log(`Invalid element entered: ${element}`);
+      return message.channel.send(
+        `${element} is not a valid element. Try one of the following: Fire, Ice, Nature, Holy, or Dark`
+      );
+    }
     let levels = data[args[0].toLowerCase()];
     message.channel
       .send(`Best level(s) for ${element} monsters: ${levels}`)
