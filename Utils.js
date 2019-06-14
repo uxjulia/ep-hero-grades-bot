@@ -4,11 +4,15 @@
  * @returns {string}
  */
 function getHeroName(args) {
-  let name = args[0]
+  let name = args[0];
   for (let i = 1; i < args.length; i++) {
-    name = name.concat(' ', args[i])
+    name = name.concat(" ", args[i]);
   }
-  return name.toLowerCase()
+  return name.toLowerCase();
+}
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 /**
@@ -18,8 +22,8 @@ function getHeroName(args) {
 function log(message) {
   const timestamp = new Date().toLocaleTimeString();
   const date = new Date().toLocaleDateString();
-  const m = `${date} - ${timestamp}: ${message}`
-  console.log(m)
+  const m = `${date} - ${timestamp}: ${message}`;
+  console.log(m);
 }
 
-module.exports = {getHeroName, log}
+module.exports = { getHeroName, log, numberWithCommas };

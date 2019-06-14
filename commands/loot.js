@@ -1,35 +1,38 @@
-const {log} = require('../Utils');
+const { log, numberWithCommas } = require("../utils");
 
-const b = .033
-const c = .01
+const b = 0.033;
+const c = 0.01;
 
 function damage(hp) {
-  const bLoot = hp * b
-  const cLoot = hp * c
+  const bLoot = Math.round(hp * b);
+  const cLoot = Math.round(hp * c);
   return {
     b: bLoot,
     c: cLoot
-  }
+  };
 }
 
-const getMessage = (data) => {
+const getMessage = data => {
   return `Titan damage needed for:
   **A+ loot**: Rank #1 on damage scoreboard
   **A loot**: Rank #2-5 on damage scoreboard
-  **B loot**: ${data.b} or greater
-  **C loot**: ${data.c} - ${data.b - 1}
-  **D loot**: Less than ${data.c}`
-}
+  **B loot**: ${numberWithCommas(data.b)} or greater
+  **C loot**: ${numberWithCommas(data.c)} - ${numberWithCommas(data.b - 1)}
+  **D loot**: Less than ${numberWithCommas(data.c)}`;
+};
 
 module.exports = {
-  name: 'loot',
-  aliases:['titan-loot'],
-  description: 'Calculate damage needed for various titan loot tiers',
+  name: "loot",
+  aliases: ["titan-loot"],
+  description: "Calculate damage needed for various titan loot tiers",
   args: true,
   execute(message, args) {
-    const hp = args[0]
-    const dmg = damage(hp)
-    const msg = getMessage(dmg)
-    message.channel.send(msg).then(() => log(`Successfully sent reply for titan loot`)).catch(error => console.error(error.message))
+    const hp = args[0];
+    const dmg = damage(hp);
+    const msg = getMessage(dmg);
+    message.channel
+      .send(msg)
+      .then(() => log(`Successfully sent reply for titan loot`))
+      .catch(error => console.error(error.message));
   }
-}
+};
