@@ -9,7 +9,7 @@ const fetchOCRText = async form => {
   return new Promise((resolve, reject) => {
     request.post(
       {
-        timeout: 5000,
+        timeout: 10000,
         url: process.env.OCRURL,
         headers: {
           apiKey: process.env.OCRAPIKEY,
@@ -23,12 +23,13 @@ const fetchOCRText = async form => {
           console.log("Read error:", err.code === "ETIMEDOUT");
           console.log("Connection timeout:", err.connect === true);
           reject(err);
+        } else {
+          const json = JSON.parse(body);
+          if (json.IsErroredOnProcessing) {
+            return false;
+          }
+          resolve(json.ParsedResults[0].ParsedText);
         }
-        const json = JSON.parse(body);
-        if (json.IsErroredOnProcessing) {
-          return false;
-        }
-        resolve(json.ParsedResults[0].ParsedText);
       }
     );
   });
