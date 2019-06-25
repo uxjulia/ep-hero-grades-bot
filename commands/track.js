@@ -1,11 +1,6 @@
 const { log } = require("../Utils");
 const request = require("request");
-const {
-  fetchOCRText,
-  compressImage,
-  removeTempFile,
-  getFormData
-} = require("./ocr");
+const Ocr = require("./ocr");
 
 const postData = async (dataType, parsedText, date) => {
   log("Sending to Google Sheets");
@@ -17,11 +12,7 @@ const postData = async (dataType, parsedText, date) => {
       option: "track",
       dataType: dataType
     };
-    request.post({ url: url, formData: form }, function optionalCallback(
-      err,
-      httpResponse,
-      body
-    ) {
+    request.post({ url: url, formData: form }, function optionalCallback(err) {
       if (err) {
         log(err);
         reject(err);
@@ -54,32 +45,22 @@ module.exports = {
       );
     }
 
+    const postToSheets = async data => {
+      return await postData(dataType, data, date);
+    };
     if (message.attachments.size === 1) {
-      const file = message.attachments.first();
-      const url = message.attachments.first().url;
-      log(`Received file name: ${file.filename} with url: \n ${file.url}`);
-      // TODO make this filename dynamic
-      let tempFileName = `${message.channel.name}-temp-file.jpg`;
-
-      const postToSheets = async fileUrl => {
-        const form = await getFormData(message);
-        const data = await fetchOCRText(form);
-        message.channel.send(`OCR result:\n ${data}`);
-        const response = await postData(dataType, data, date);
-        return response;
-      };
-      await postToSheets(url)
-        .then(msg => message.channel.send(msg))
-        .catch(error => {
-          log(error);
-          message.channel.send(
-            "Unable to complete the request. Please try again later."
-          );
-        });
-
-      if (file.filesize > 1000000) {
-        removeTempFile(tempFileName).catch(err => log(err));
-      }
+      Ocr.execute(message)
+        .then(data => {
+          postToSheets(data)
+            .then(resp => message.channel.send(resp))
+            .catch(err => {
+              log(err);
+              message.channel.send(
+                "An error occurred while posting to Google Sheets"
+              );
+            });
+        })
+        .catch(err => log(err));
     }
   }
 };

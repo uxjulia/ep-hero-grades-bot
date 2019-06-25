@@ -44,8 +44,7 @@ const compressImage = async (fileUrl, fileName = "tempFile") => {
     .catch(err => {
       console.error(err);
     });
-  const file = fs.createReadStream(path.join(__dirname + "/../", fileName));
-  return file;
+  return fs.createReadStream(path.join(__dirname + "/../", fileName));
 };
 
 const removeTempFile = async fileName => {
@@ -79,11 +78,7 @@ module.exports = {
   description:
     "Grab text from an image using the Optical Character Recognition (OCR) service provided by OCR.space",
   args: false,
-  fetchOCRText: fetchOCRText,
-  compressImage: compressImage,
-  removeTempFile: removeTempFile,
-  getFormData: getFormData,
-  execute: async function(message, args) {
+  execute: async function(message) {
     if (message.attachments.size < 1 || message.attachments.size > 1) {
       message.channel.send(
         "Please attach a single image for text to be parsed. Multiple attachments is not supported."
@@ -93,32 +88,37 @@ module.exports = {
     if (message.attachments.size === 1) {
       message.channel.send("Parsing text from image...");
       const file = message.attachments.first();
-      const url = message.attachments.first().url;
       log(`Received file name: ${file.filename} with url: \n ${file.url}`);
       const fileName = `${message.channel.name}-temp-file.jpg`;
 
-      const sendParsedText = async (fileUrl, fileName) => {
+      const sendParsedText = async () => {
         const form = await getFormData(message);
-        const data = await fetchOCRText(form);
-        return data;
+        return await fetchOCRText(form);
       };
 
-      await sendParsedText(url, fileName)
-        .then(data => {
-          if (data === false) {
-            message.channel.send(
-              `An error occurred while parsing data. Please try again.`
-            );
-          } else {
-            log("Sending OCR results...");
-            message.channel.send(`Parsing complete! Results:\n \n ${data}`);
-          }
-        })
-        .catch(error => {
-          log(error);
-        });
-
-      removeTempFile(fileName).catch(err => log(err));
+      return new Promise((resolve, reject) => {
+        sendParsedText()
+          .then(data => {
+            if (data === false) {
+              message.channel.send(
+                `An error occurred while parsing data. Please try again.`
+              );
+              throw new Error();
+            } else {
+              log("Sending OCR results...");
+              message.channel.send(`Parsing complete! Results:\n \n ${data}`);
+              resolve(data);
+            }
+          })
+          .then(() => {
+            if (file.filesize > 1000000)
+              removeTempFile(fileName).catch(err => log(err));
+          })
+          .catch(error => {
+            log(error);
+            reject(error);
+          });
+      });
     }
   }
 };
