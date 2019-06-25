@@ -1,5 +1,5 @@
 const Database = require("../Database");
-const { getHeroName } = require("../Utils");
+const { getHeroName } = require("../utils");
 
 module.exports = {
   name: "offense",

@@ -1,4 +1,4 @@
-const { log } = require("../Utils");
+const { log } = require("../utils");
 const request = require("request");
 const Ocr = require("./ocr");
 

@@ -1,4 +1,4 @@
-const { log } = require("../Utils");
+const { log } = require("../utils");
 const request = require("request");
 const Jimp = require("jimp");
 const fs = require("fs");

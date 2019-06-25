@@ -4,7 +4,7 @@ const images = require("../images");
 const Canvas = require("canvas");
 const Logger = require("../Logger");
 
-const { getHeroName, log } = require("../Utils");
+const { getHeroName, log } = require("../utils");
 
 const getImage = async (hero, message) => {
   try {
