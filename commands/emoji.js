@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
-const { log } = require("../Utils");
+const { log } = require("../utils");
 
 const canvas = createCanvas(800, 998);
 const ctx = canvas.getContext("2d");

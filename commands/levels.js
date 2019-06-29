@@ -1,4 +1,4 @@
-const { log } = require("../Utils");
+const { log } = require("../utils");
 
 const data = {
   fire: "\nS2: 3-4, 3-8 \nS1: 20-4, 19-6, 19-4, 11-6, 6-8",

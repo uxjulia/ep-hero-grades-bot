@@ -4,7 +4,7 @@ const images = require("../images");
 const Canvas = require("canvas");
 const Logger = require("../Logger");
 
-const { getHeroName, log } = require("../Utils");
+const { getHeroName, log } = require("../utils");
 
 const getImage = async (hero, message) => {
   try {
@@ -40,23 +40,27 @@ const getImage = async (hero, message) => {
             console.error(
               `JPG for ${awsName} not in AWS, getting image URL locally`
             );
-            try {
-              // Try getting the image from one of the URLs listed in local images file.
-              // TODO: Remove retrieving local URLS once all hero images have been updated.
-              let url = images.local[hero];
-              if (url === undefined) {
-                return message.reply(
-                  `Hmm. I can't seem to find an image for '${hero}'. Please try again`
-                );
-              } else {
-                let img = Canvas.loadImage(url);
-                img.then(img => {
+            // Try getting the image from one of the URLs listed in local images file.
+            // TODO: Remove retrieving local URLS once all hero images have been updated.
+            let url = images.local[hero];
+            if (url === undefined) {
+              console.error(`Image for ${awsName} not found locally`);
+              return message.reply(
+                `Hmm. I can't seem to find an image for '${hero}'. Please try again.`
+              );
+            } else {
+              let img = Canvas.loadImage(url);
+              img
+                .then(img => {
                   ctx.drawImage(img, 0, 0, 432, canvas.height);
                   sendToDiscord(false);
+                })
+                .catch(err => {
+                  log(err);
+                  return message.reply(
+                    `Hmm. I can't seem to find an image for '${hero}'. Please try again.`
+                  );
                 });
-              }
-            } catch (err) {
-              throw err;
             }
           });
       });

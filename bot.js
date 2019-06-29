@@ -2,7 +2,7 @@ const fs = require("fs");
 const Discord = require("discord.js");
 const prefix = process.env.PREFIX;
 const token = process.env.TOKEN;
-const { log } = require("./Utils");
+const { log } = require("./utils");
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -19,11 +19,11 @@ client.once("ready", () => {
   log(`Ready!`);
 });
 
-client.on('message', message => {
-  if (!message.content.startsWith(prefix)) return
-  const args = message.content.slice(prefix.length).split(/ +/)
-  const commandName = args.shift().toLowerCase()
-  if (commandName.length === 0) return // Exit if an empty command was sent
+client.on("message", message => {
+  if (!message.content.startsWith(prefix)) return;
+  const args = message.content.slice(prefix.length).split(/ +/);
+  const commandName = args.shift().toLowerCase();
+  if (commandName.length === 0) return; // Exit if an empty command was sent
 
   const command =
     client.commands.get(commandName) ||
