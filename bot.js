@@ -2,7 +2,7 @@ const fs = require("fs");
 const Discord = require("discord.js");
 const prefix = process.env.PREFIX;
 const token = process.env.TOKEN;
-const { log } = require("./Utils");
+const { log } = require("./utils");
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
