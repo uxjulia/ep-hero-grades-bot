@@ -1,6 +1,8 @@
 # Empires and Heroes Discord Bot
 
-A Discord bot that retrieves hero ratings and delivers them to a Discord channel. Grades are based off of the original [Hero Grades compiled by Anchor of 7DD](http://7ddgaming.com/2018/01/18/anchors-complete-guide-to-hero-grades/)
+A Discord bot that retrieves hero ratings and delivers them to a Discord channel. Grades are based off of the original [Hero Grades compiled by members of 7DD](http://7ddgaming.com/2018/01/18/anchors-complete-guide-to-hero-grades/)
+
+[Join the Hiro Bot Discord Server](https://discord.gg/Geub8qs) to use the bot.
 
 ### Available Commands
 
