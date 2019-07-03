@@ -36,6 +36,15 @@ module.exports = {
   description: "Log titan spawns",
   args: true,
   execute(message, args) {
+    // Since this bot is installed on other Discord Servers for other E&P Alliances,
+    // verify where the message is coming from so that tracking data isn't initiated
+    // from other alliances
+    if (message.channel.id !== process.env.CHANNELID) {
+      message.channel.send("That command is not allowed from this channel.");
+      return;
+    }
+
+    // Check if arguments were provided
     if (!args.length) {
       log("Invalid Arguments: " + args.length);
       message.channel.send(
