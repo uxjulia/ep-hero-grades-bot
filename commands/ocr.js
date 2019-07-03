@@ -53,8 +53,7 @@ const compressImage = async (fileUrl, fileName = "tempFile") => {
 const removeTempFile = async fileName => {
   const filePath = path.join(__dirname + "/../", fileName);
   fs.unlink(filePath, err => {
-    if (err) throw err;
-    console.log(`${fileName} was successfully deleted`);
+    if (err) throw new Error(err);
   });
 };
 
@@ -113,13 +112,18 @@ module.exports = {
               resolve(data);
             }
           })
-          .then(() => {
-            if (file.filesize > 1000000)
-              removeTempFile(fileName).catch(err => log(err));
-          })
           .catch(error => {
             log(error);
+            message.channel.send(
+              `An error occurred while trying to reach OCR service. Please try again.`
+            );
             reject(error);
+          })
+          .finally(() => {
+            if (file.filesize > 1000000)
+              removeTempFile(fileName)
+                .then(() => log(`${fileName} was successfully deleted`))
+                .catch(err => log(err));
           });
       });
     }
