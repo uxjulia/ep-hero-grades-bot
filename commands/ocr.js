@@ -10,6 +10,7 @@ const fetchOCRText = async form => {
     request.post(
       {
         timeout: 10000,
+        forever: true,
         url: process.env.OCRURL,
         headers: {
           apiKey: process.env.OCRAPIKEY,
