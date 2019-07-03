@@ -39,6 +39,7 @@ const compressImage = async (fileUrl, fileName = "tempFile") => {
   await Jimp.read(fileUrl)
     .then(image => {
       return image
+        .resize(440, Jimp.AUTO) // Resize
         .quality(80) // set JPEG quality
         .write(fileName); // save
     })
