@@ -43,9 +43,9 @@ class Summon {
 
   static getHero(opt) {
     let option = opt !== "ATLANTIS" ? "CLASSIC" : opt;
-    let r = Summon.rarity(option);
+    let r = this.rarity(option);
     let hero = `${chance.pickone(heroes[r])} (**${r}**)`;
-    let allowBonus = Summon.allowBonusDraw();
+    let allowBonus = this.allowBonusDraw();
     let result = hero;
     if (allowBonus !== false) {
       result = hero.concat(` + BONUS HOTM`);
@@ -63,8 +63,8 @@ class Summon {
       }
       return msg + heroes.join("\n");
     }
+    // Check if the first parameter passed is actually the summon type (for a single Atlantis pull).
     if (this.count.toUpperCase() === "ATLANTIS") {
-      // Check if the first parameter passed is actually the summon type (for a single Atlantis pull).
       heroes.push(Summon.getHero("ATLANTIS"));
       return msg + heroes;
     }

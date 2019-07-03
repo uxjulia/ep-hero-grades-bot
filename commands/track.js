@@ -17,8 +17,8 @@ const postData = async (dataType, parsedText, date) => {
         log(err);
         reject(err);
       }
-      log("Successfully posted to Google Sheets");
-      resolve("Successfully posted to Google Sheets");
+      log(`Successfully posted ${dataType.toUpperCase()} data`);
+      resolve(`Successfully posted ${dataType.toUpperCase()} data`);
     });
   });
 };
@@ -51,6 +51,7 @@ module.exports = {
     if (message.attachments.size === 1) {
       Ocr.execute(message)
         .then(data => {
+          message.channel.send("Posting data to Google Sheets...");
           postToSheets(data)
             .then(resp => message.channel.send(resp))
             .catch(err => {
