@@ -50,7 +50,7 @@ module.exports = {
     if (!["TITAN", "WAR"].includes(dataType.toUpperCase())) {
       log("Invalid tracking data type");
       message.channel.send(
-        "Invalid tracking data type. Valid data type options include: [Titan, War]"
+        "Invalid tracking data type. Valid data type options include: Titan or War"
       );
     }
 

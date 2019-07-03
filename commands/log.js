@@ -67,16 +67,26 @@ module.exports = {
     const hasDate = RegExp("--date|--d").test(messageText);
     let date = hasDate === true ? messageText.match(captureDate)[0] : "";
 
-    // Check if this should be an update to an existing record
-    let option = titanName.toUpperCase() === "UPDATE" ? "UPDATE" : "LOG";
-    if (option === "UPDATE") {
-      // Reject if the update argument is not one of 'Killed' or 'Escaped'
-      if (!["KILLED", "ESCAPED"].includes(color.toUpperCase())) {
-        message.channel.send(
-          "Invalid update option. Valid options include: [KILLED, ESCAPED]"
-        );
-      }
+    if (
+      ![
+        "RED",
+        "BLUE",
+        "YELLOW",
+        "PURPLE",
+        "GREEN",
+        "FIRE",
+        "ICE",
+        "HOLY",
+        "DARK",
+        "NATURE"
+      ].includes(color.toUpperCase())
+    ) {
+      log(`Invalid titan color/element submitted: ${color}`);
+      message.channel.send(
+        "Invalid titan color/element submitted. Valid colors/elements iclude: Red, Blue, Yellow, Purple, Green, Fire, Ice, Holy, Dark or Nature"
+      );
     }
+
     // Prepare the form data
     const formData = {
       option: option,
