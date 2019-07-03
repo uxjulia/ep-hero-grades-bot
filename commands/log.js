@@ -19,12 +19,12 @@ const postToGoogle = async data => {
           let bLoot;
           bLoot = data.hp * 0.033;
           resolve(
-            `Successfully posted to Google Sheets. B Loot = ${numberWithCommas(
+            `Successfully added ${data.titan.toUpperCase()} to the Titan Log. B Loot = ${numberWithCommas(
               Math.round(bLoot)
             )}`
           );
         } else {
-          resolve("Successfully posted to Google Sheets");
+          resolve(`Successfully logged data`);
         }
       }
     );
