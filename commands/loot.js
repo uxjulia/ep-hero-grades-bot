@@ -28,6 +28,13 @@ module.exports = {
   args: true,
   execute(message, args) {
     const hp = args[0];
+    if (isNaN(hp)) {
+      log(`Invalid HP value given: ${hp}`);
+      message.channel.send(
+        "Total titan health needs to be a number, ex: `!loot 4254000`"
+      );
+      return;
+    }
     const dmg = damage(hp);
     const msg = getMessage(dmg);
     message.channel
