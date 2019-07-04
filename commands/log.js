@@ -89,7 +89,7 @@ module.exports = {
 
     // Prepare the form data
     const formData = {
-      option: option,
+      option: "log",
       titan: titanName,
       color: color,
       stars: stars,
