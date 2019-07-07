@@ -1,10 +1,33 @@
 const Airtable = require("airtable");
+const { promisify } = require("util");
+var redis = require("redis");
+var cache = redis.createClient(process.env.REDISCLOUD_URL, {
+  no_ready_check: true
+});
 const base = new Airtable({ apiKey: process.env.AIRTABLEAPI }).base(
   process.env.AIRTABLEBASE
 );
 const Logger = require("./Logger");
 const gradesBase = base("Grades");
 const heroBase = base("Heroes");
+
+const getAsync = promisify(cache.get).bind(cache);
+
+async function fetchHeroStats(hero) {
+  return getAsync(hero).then(function(res) {
+    if (res === null) {
+      getInfo(hero)
+        .then(stats => {
+          cache.set(hero, JSON.stringify(stats), "EX", 3600);
+          return stats;
+        })
+        .catch(err => console.error(err));
+    } else {
+      console.log(JSON.parse(res));
+      return JSON.parse(res);
+    }
+  });
+}
 
 function getHeroData(hero, record, message) {
   const data = {};
@@ -25,40 +48,73 @@ function getHeroData(hero, record, message) {
   data.specialName = record.get("Special Name");
   data.mana = record.get("Mana");
   data.limited = record.get("Limited") === "TRUE" ? "Yes" : "No";
-  return Logger.success["info"](message, data);
+  console.log("in getHeroData >", data);
+  return data;
+  // return Logger.success["info"](message, data);
 }
 
-function getInfo(hero, message) {
-  let count = 0;
-  heroBase
-    .select({
-      view: "All Heroes"
-    })
-    .eachPage(
-      function page(records, fetchNextPage) {
-        records.forEach(function(record) {
-          let heroName = record.get("Hero");
-          if (heroName.toLowerCase() === hero) {
-            count++;
-            try {
-              getHeroData(heroName, record, message);
-            } catch (err) {
-              Logger.error(hero, err, message);
+async function getInfo(hero) {
+  return new Promise((res, rej) => {
+    let count = 0;
+    heroBase
+      .select({
+        view: "All Heroes"
+      })
+      .eachPage(
+        function page(records, fetchNextPage) {
+          records.forEach(function(record) {
+            let heroName = record.get("Hero");
+            if (heroName.toLowerCase() === hero) {
+              count++;
+              const data = getHeroData(heroName, record);
+              res(data);
             }
+          });
+          fetchNextPage();
+        },
+        function done(err) {
+          if (err) {
+            rej(err);
           }
-        });
-        fetchNextPage();
-      },
-      function done(err) {
-        if (err) {
-          Logger.error(hero, err, message);
+          if (count === 0) {
+            res("Hero not found");
+          }
         }
-        if (count === 0) {
-          Logger.noData(message, hero);
-        }
-      }
-    );
+      );
+  });
 }
+
+// function getInfo(hero, message) {
+//   let count = 0;
+//   heroBase
+//     .select({
+//       view: "All Heroes"
+//     })
+//     .eachPage(
+//       function page(records, fetchNextPage) {
+//         records.forEach(function(record) {
+//           let heroName = record.get("Hero");
+//           if (heroName.toLowerCase() === hero) {
+//             count++;
+//             try {
+//               getHeroData(heroName, record, message);
+//             } catch (err) {
+//               Logger.error(hero, err, message);
+//             }
+//           }
+//         });
+//         fetchNextPage();
+//       },
+//       function done(err) {
+//         if (err) {
+//           Logger.error(hero, err, message);
+//         }
+//         if (count === 0) {
+//           Logger.noData(message, hero);
+//         }
+//       }
+//     );
+// }
 
 function getTitan(hero, message) {
   let count = 0;
@@ -169,4 +225,4 @@ function getOffense(hero, message) {
     );
 }
 
-module.exports = { getInfo, getTitan, getDefense, getOffense };
+module.exports = { getInfo, getTitan, getDefense, getOffense, fetchHeroStats };
