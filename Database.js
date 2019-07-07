@@ -12,20 +12,50 @@ const gradesBase = base("Grades");
 const heroBase = base("Heroes");
 
 const getAsync = promisify(cache.get).bind(cache);
+const setAsync = promisify(cache.set).bind(cache);
 
 async function fetchHeroStats(hero) {
-  return getAsync(hero).then(function(res) {
-    if (res === null) {
-      getInfo(hero)
-        .then(stats => {
-          cache.set(hero, JSON.stringify(stats), "EX", 3600);
-          return stats;
-        })
-        .catch(err => console.error(err));
-    } else {
-      console.log(JSON.parse(res));
-      return JSON.parse(res);
-    }
+  return new Promise((res, rej) => {
+    getAsync(`info-${hero}`).then(cachedData => {
+      if (cachedData === null) {
+        getInfo(hero)
+          .then(stats => {
+            setAsync(`info-${hero}`, JSON.stringify(stats), "EX", 3600).then(
+              () => {
+                res(stats);
+              }
+            );
+          })
+          .catch(err => console.error(err));
+      } else {
+        console.log("retrieved cached data");
+        res(JSON.parse(cachedData));
+      }
+    });
+  });
+}
+
+async function fetchTitanGrade(hero) {
+  return new Promise((res, rej) => {
+    getAsync(`titan-${hero}`).then(cachedData => {
+      if (cachedData === null) {
+        console.log(
+          "in fetchTitanGrade > record not cached, retrieving data..."
+        );
+        getTitan(hero)
+          .then(stats => {
+            setAsync(`titan-${hero}`, JSON.stringify(stats), "EX", 3600).then(
+              () => {
+                res(stats);
+              }
+            );
+          })
+          .catch(err => console.error(err));
+      } else {
+        console.log("retrieved cached data");
+        res(JSON.parse(cachedData));
+      }
+    });
   });
 }
 
@@ -48,9 +78,7 @@ function getHeroData(hero, record, message) {
   data.specialName = record.get("Special Name");
   data.mana = record.get("Mana");
   data.limited = record.get("Limited") === "TRUE" ? "Yes" : "No";
-  console.log("in getHeroData >", data);
   return data;
-  // return Logger.success["info"](message, data);
 }
 
 async function getInfo(hero) {
@@ -84,72 +112,44 @@ async function getInfo(hero) {
   });
 }
 
-// function getInfo(hero, message) {
-//   let count = 0;
-//   heroBase
-//     .select({
-//       view: "All Heroes"
-//     })
-//     .eachPage(
-//       function page(records, fetchNextPage) {
-//         records.forEach(function(record) {
-//           let heroName = record.get("Hero");
-//           if (heroName.toLowerCase() === hero) {
-//             count++;
-//             try {
-//               getHeroData(heroName, record, message);
-//             } catch (err) {
-//               Logger.error(hero, err, message);
-//             }
-//           }
-//         });
-//         fetchNextPage();
-//       },
-//       function done(err) {
-//         if (err) {
-//           Logger.error(hero, err, message);
-//         }
-//         if (count === 0) {
-//           Logger.noData(message, hero);
-//         }
-//       }
-//     );
-// }
-
-function getTitan(hero, message) {
-  let count = 0;
-  gradesBase
-    .select({
-      view: "Hero Grades"
-    })
-    .eachPage(
-      function page(records, fetchNextPage) {
-        records.forEach(function(record) {
-          let heroName = record.get("Hero");
-          if (heroName.toLowerCase() === hero) {
-            count++;
-            const data = {};
-            data.heroName = heroName;
-            data.overallGrade = record.get("Titan Overall");
-            data.stamina = record.get("Titan Stamina");
-            data.passive = record.get("Titan Passive");
-            data.direct = record.get("Titan Direct");
-            data.tiles = record.get("Titan Tiles");
-            data.versatility = record.get("Titan Versatility");
-            Logger.success["titan"](message, data);
+async function getTitan(hero) {
+  return new Promise((res, rej) => {
+    let count = 0;
+    gradesBase
+      .select({
+        view: "Hero Grades"
+      })
+      .eachPage(
+        function page(records, fetchNextPage) {
+          records.forEach(function(record) {
+            let heroName = record.get("Hero");
+            if (heroName.toLowerCase() === hero) {
+              count++;
+              const data = {};
+              data.heroName = heroName;
+              data.overallGrade = record.get("Titan Overall");
+              data.stamina = record.get("Titan Stamina");
+              data.passive = record.get("Titan Passive");
+              data.direct = record.get("Titan Direct");
+              data.tiles = record.get("Titan Tiles");
+              data.versatility = record.get("Titan Versatility");
+              res(data);
+            }
+          });
+          fetchNextPage();
+        },
+        function done(err) {
+          if (err) {
+            log(err);
+            rej(`An error occurred trying to retrieve stats for ${hero}`);
           }
-        });
-        fetchNextPage();
-      },
-      function done(err) {
-        if (err) {
-          Logger.error(hero, err);
+          if (count === 0) {
+            log("No grades found");
+            res(`Titan grades not found for ${hero}`);
+          }
         }
-        if (count === 0) {
-          Logger.noData(message, hero);
-        }
-      }
-    );
+      );
+  });
 }
 
 function getDefense(hero, message) {
@@ -225,4 +225,9 @@ function getOffense(hero, message) {
     );
 }
 
-module.exports = { getInfo, getTitan, getDefense, getOffense, fetchHeroStats };
+module.exports = {
+  getDefense,
+  getOffense,
+  fetchHeroStats,
+  fetchTitanGrade
+};
