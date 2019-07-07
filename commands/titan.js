@@ -1,4 +1,4 @@
-const Database = require("../Database");
+const Services = require("../services");
 const { getHeroName, log } = require("../utils");
 
 function sendTitanGrades(message, data) {
@@ -23,10 +23,10 @@ module.exports = {
   name: "titan",
   description: "Get titan grades",
   args: true,
-  async execute(message, args) {
+  execute: async function(message, args) {
     if (args.length) {
       const hero = getHeroName(args);
-      Database.fetchTitanGrade(hero, message)
+      Services.fetchTitanGrade(hero, message)
         .then(stats => {
           sendTitanGrades(message, stats);
         })

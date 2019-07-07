@@ -1,4 +1,4 @@
-const Database = require("../Database");
+const Services = require("../services");
 const { getHeroName, log } = require("../utils");
 
 function sendDefenseGrade(message, data) {
@@ -23,10 +23,10 @@ module.exports = {
   name: "defense",
   description: "Get defense grades",
   args: true,
-  async execute(message, args) {
+  execute: async function(message, args) {
     if (args.length) {
       const hero = getHeroName(args);
-      Database.fetchDefenseGrade(hero, message)
+      Services.fetchDefenseGrade(hero, message)
         .then(stats => {
           sendDefenseGrade(message, stats);
         })
