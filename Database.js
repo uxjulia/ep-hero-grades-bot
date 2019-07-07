@@ -59,6 +59,54 @@ async function fetchTitanGrade(hero) {
   });
 }
 
+async function fetchDefenseGrade(hero) {
+  return new Promise((res, rej) => {
+    getAsync(`defense-${hero}`).then(cachedData => {
+      if (cachedData === null) {
+        console.log(
+          "in fetchDefenseGrade > record not cached, retrieving data..."
+        );
+        getDefense(hero)
+          .then(stats => {
+            setAsync(`defense-${hero}`, JSON.stringify(stats), "EX", 3600).then(
+              () => {
+                res(stats);
+              }
+            );
+          })
+          .catch(err => console.error(err));
+      } else {
+        console.log("retrieved cached data");
+        res(JSON.parse(cachedData));
+      }
+    });
+  });
+}
+
+async function fetchOffenseGrade(hero) {
+  return new Promise((res, rej) => {
+    getAsync(`offense-${hero}`).then(cachedData => {
+      if (cachedData === null) {
+        console.log(
+          "in fetchOffenseGrade > record not cached, retrieving data..."
+        );
+        getOffense(hero)
+          .then(stats => {
+            setAsync(`offense-${hero}`, JSON.stringify(stats), "EX", 3600).then(
+              () => {
+                res(stats);
+              }
+            );
+          })
+          .catch(err => console.error(err));
+      } else {
+        console.log("retrieved cached data");
+        res(JSON.parse(cachedData));
+      }
+    });
+  });
+}
+
 function getHeroData(hero, record, message) {
   const data = {};
   data.heroName = hero;
@@ -152,82 +200,88 @@ async function getTitan(hero) {
   });
 }
 
-function getDefense(hero, message) {
-  let count = 0;
-  gradesBase
-    .select({
-      view: "Hero Grades"
-    })
-    .eachPage(
-      function page(records, fetchNextPage) {
-        records.forEach(function(record) {
-          let heroName = record.get("Hero");
-          if (heroName.toLowerCase() === hero) {
-            count++;
-            const data = {};
-            data.heroName = heroName;
-            data.overallGrade = record.get("Defense Overall");
-            data.speed = record.get("Defense Speed");
-            data.effect = record.get("Defense Effect");
-            data.stamina = record.get("Defense Stamina");
-            data.strength = record.get("Defense Strength");
-            data.tank = record.get("Defense Tank");
-            data.support = record.get("Defense Flank");
-            Logger.success["defense"](message, data);
+async function getDefense(hero, message) {
+  return new Promise((res, rej) => {
+    let count = 0;
+    gradesBase
+      .select({
+        view: "Hero Grades"
+      })
+      .eachPage(
+        function page(records, fetchNextPage) {
+          records.forEach(function(record) {
+            let heroName = record.get("Hero");
+            if (heroName.toLowerCase() === hero) {
+              count++;
+              const data = {};
+              data.heroName = heroName;
+              data.overallGrade = record.get("Defense Overall");
+              data.speed = record.get("Defense Speed");
+              data.effect = record.get("Defense Effect");
+              data.stamina = record.get("Defense Stamina");
+              data.strength = record.get("Defense Strength");
+              data.tank = record.get("Defense Tank");
+              data.support = record.get("Defense Flank");
+              res(data);
+            }
+          });
+          fetchNextPage();
+        },
+        function done(err) {
+          if (err) {
+            log(err);
+            rej(`An error occurred trying to retrieve stats for ${hero}`);
           }
-        });
-        fetchNextPage();
-      },
-      function done(err) {
-        if (err) {
-          Logger.error(hero, err);
+          if (count === 0) {
+            res(`Defense grades not found for ${hero}`);
+          }
         }
-        if (count === 0) {
-          Logger.noData(message, hero);
-        }
-      }
-    );
+      );
+  });
 }
 
-function getOffense(hero, message) {
-  let count = 0;
-  gradesBase
-    .select({
-      view: "Hero Grades"
-    })
-    .eachPage(
-      function page(records, fetchNextPage) {
-        records.forEach(function(record) {
-          let heroName = record.get("Hero");
-          if (heroName.toLowerCase() === hero) {
-            count++;
-            const data = {};
-            data.heroName = heroName;
-            data.overallGrade = record.get("Offense Overall");
-            data.speed = record.get("Offense Speed");
-            data.effect = record.get("Offense Effect");
-            data.stamina = record.get("Offense Stamina");
-            data.war = record.get("Offense War");
-            data.versatility = record.get("Offense Versatility");
-            Logger.success["offense"](message, data);
+async function getOffense(hero, message) {
+  return new Promise((res, rej) => {
+    let count = 0;
+    gradesBase
+      .select({
+        view: "Hero Grades"
+      })
+      .eachPage(
+        function page(records, fetchNextPage) {
+          records.forEach(function(record) {
+            let heroName = record.get("Hero");
+            if (heroName.toLowerCase() === hero) {
+              count++;
+              const data = {};
+              data.heroName = heroName;
+              data.overallGrade = record.get("Offense Overall");
+              data.speed = record.get("Offense Speed");
+              data.effect = record.get("Offense Effect");
+              data.stamina = record.get("Offense Stamina");
+              data.war = record.get("Offense War");
+              data.versatility = record.get("Offense Versatility");
+              res(data);
+            }
+          });
+          fetchNextPage();
+        },
+        function done(err) {
+          if (err) {
+            log(err);
+            rej(`An error occurred trying to offense stats for ${hero}`);
           }
-        });
-        fetchNextPage();
-      },
-      function done(err) {
-        if (err) {
-          Logger.error(hero, err);
+          if (count === 0) {
+            res(`Offense grades not found for ${hero}`);
+          }
         }
-        if (count === 0) {
-          Logger.noData(message, hero);
-        }
-      }
-    );
+      );
+  });
 }
 
 module.exports = {
-  getDefense,
-  getOffense,
+  fetchDefenseGrade,
+  fetchOffenseGrade,
   fetchHeroStats,
   fetchTitanGrade
 };
