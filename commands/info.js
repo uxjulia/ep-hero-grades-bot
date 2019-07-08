@@ -2,7 +2,6 @@ const Services = require("../services");
 const { getHeroName, log } = require("../utils");
 
 function sendInfo(message, data) {
-  console.log("in sendInfo >", data);
   let family = data.family !== undefined ? data.family : "N/A";
   message.channel
     .send(

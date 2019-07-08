@@ -2,7 +2,6 @@ const Services = require("../services");
 const { getHeroName, log } = require("../utils");
 
 function sendTitanGrades(message, data) {
-  console.log("in sendTitanGrades >", data);
   message.channel
     .send(
       `Here are ${data.heroName}'s **titan** grades:

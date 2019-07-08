@@ -23,7 +23,6 @@ module.exports = {
   description: "Get offense grades for a hero",
   args: true,
   execute: async function(message, args) {
-    console.log("executing offense..", args);
     if (args.length) {
       const hero = getHeroName(args);
       Services.fetchOffenseGrade(hero, message)
