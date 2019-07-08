@@ -1,18 +1,11 @@
 const Airtable = require("airtable");
-const { promisify } = require("util");
-const redis = require("redis");
-const cache = redis.createClient(process.env.REDISCLOUD_URL, {
-  no_ready_check: true
-});
 const base = new Airtable({ apiKey: process.env.AIRTABLEAPI }).base(
   process.env.AIRTABLEBASE
 );
 const Logger = require("./Logger");
 const gradesBase = base("Grades");
 const heroBase = base("Heroes");
-
-const getAsync = promisify(cache.get).bind(cache);
-const setAsync = promisify(cache.set).bind(cache);
+const { getAsync, setAsync } = require("./cache");
 
 async function fetchHeroStats(hero) {
   return new Promise((res, rej) => {
