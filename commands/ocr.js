@@ -9,7 +9,7 @@ const fetchOCRText = async form => {
   return new Promise((resolve, reject) => {
     request.post(
       {
-        timeout: 10000,
+        timeout: 60000,
         forever: true,
         url: process.env.OCRURL,
         headers: {
