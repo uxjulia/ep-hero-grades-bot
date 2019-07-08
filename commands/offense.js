@@ -1,4 +1,4 @@
-const Services = require("../services");
+const ServiceHandler = require("../services");
 const { getHeroName, log } = require("../utils");
 
 function sendOffenseGrade(message, data) {
@@ -25,7 +25,8 @@ module.exports = {
   execute: async function(message, args) {
     if (args.length) {
       const hero = getHeroName(args);
-      Services.fetchOffenseGrade(hero, message)
+      const Service = new ServiceHandler(hero, "offense");
+      Service.getData()
         .then(stats => {
           sendOffenseGrade(message, stats);
         })
