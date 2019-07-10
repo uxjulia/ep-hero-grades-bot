@@ -40,18 +40,23 @@ class Service {
       getAsync(`${this.option}-${this.hero}`).then(cachedData => {
         if (cachedData === null) {
           console.log("No cached data, getting from database");
-          this[this.option](this.hero).then(stats => {
-            setAsync(
-              `${this.option}-${this.hero}`,
-              JSON.stringify(stats),
-              "EX",
-              86400
-            )
-              .then(() => {
-                resolve(stats);
-              })
-              .catch(err => console.error(err));
-          });
+          this[this.option](this.hero)
+            .then(stats => {
+              setAsync(
+                `${this.option}-${this.hero}`,
+                JSON.stringify(stats),
+                "EX",
+                86400
+              )
+                .then(() => {
+                  resolve(stats);
+                })
+                .catch(err => console.error(err));
+            })
+            .catch(err => {
+              console.error(err);
+              reject("Uh oh. I can't find data on that hero");
+            });
         } else {
           console.log("Cached data found.");
           resolve(JSON.parse(cachedData));
@@ -84,7 +89,7 @@ class Service {
               rej(err);
             }
             if (count === 0) {
-              res("Hero not found");
+              rej(`Info for ${hero} not found`);
             }
           }
         );
@@ -119,12 +124,10 @@ class Service {
           },
           function done(err) {
             if (err) {
-              log(err);
               rej(`An error occurred trying to retrieve stats for ${hero}`);
             }
             if (count === 0) {
-              log("No grades found");
-              res(`Titan grades not found for ${hero}`);
+              rej(`Titan grades for ${hero} not found`);
             }
           }
         );
@@ -160,11 +163,10 @@ class Service {
           },
           function done(err) {
             if (err) {
-              log(err);
               rej(`An error occurred trying to retrieve stats for ${hero}`);
             }
             if (count === 0) {
-              res(`Defense grades not found for ${hero}`);
+              rej(`Defense grades for ${hero} not found`);
             }
           }
         );
@@ -199,11 +201,10 @@ class Service {
           },
           function done(err) {
             if (err) {
-              log(err);
               rej(`An error occurred trying to offense stats for ${hero}`);
             }
             if (count === 0) {
-              res(`Offense grades not found for ${hero}`);
+              rej(`Offense grades for ${hero} not found`);
             }
           }
         );
