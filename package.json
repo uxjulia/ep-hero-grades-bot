@@ -1,7 +1,7 @@
 {
   "name": "ep-hero-grading-bot",
   "version": "1.0.0",
-  "description": "Discord bot for displaying Empires and Puzzles hero grades in channels.",
+  "description": "A handy Discord bot for players and alliances of Empires and Heroes",
   "main": "bot.js",
   "scripts": {
     "start": "node -r dotenv/config bot.js",
@@ -23,5 +23,17 @@
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uxjulia/ep-hero-grades-bot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot"
+  ],
+  "bugs": {
+    "url": "https://github.com/uxjulia/ep-hero-grades-bot/issues"
+  },
+  "homepage": "https://github.com/uxjulia/ep-hero-grades-bot#readme"
 }
