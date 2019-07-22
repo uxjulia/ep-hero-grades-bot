@@ -30,7 +30,10 @@ module.exports = {
         .then(stats => {
           sendTitanGrades(message, stats);
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+          log(err);
+          message.reply(err);
+        });
     }
   }
 };

@@ -38,5 +38,5 @@ const noData = function(message, data) {
     .catch(error => console.error(error.message));
 };
 
-const success = { info, titan, defense, offense, withImage };
+const success = { withImage };
 module.exports = { success, error, noData };

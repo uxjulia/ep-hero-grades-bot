@@ -41,18 +41,20 @@ class Service {
       getAsync(`${this.option}-${this.hero}`).then(cachedData => {
         if (cachedData === null) {
           console.log("No cached data, getting from database");
-          this[this.option](this.hero).then(stats => {
-            setAsync(
-              `${this.option}-${this.hero}`,
-              JSON.stringify(stats),
-              "EX",
-              86400
-            )
-              .then(() => {
-                resolve(stats);
-              })
-              .catch(err => console.error(err));
-          });
+          this[this.option](this.hero)
+            .then(stats => {
+              setAsync(
+                `${this.option}-${this.hero}`,
+                JSON.stringify(stats),
+                "EX",
+                86400
+              )
+                .then(() => {
+                  resolve(stats);
+                })
+                .catch(err => console.error(err));
+            })
+            .catch(err => reject(err));
         } else {
           log("Cached data found.");
           resolve(JSON.parse(cachedData));
@@ -85,8 +87,11 @@ class Service {
               rej(err);
             }
             if (count === 0) {
-              log("Hero not found");
-              rej("Hero not found");
+              rej(
+                `Hmm.. I couldn't find info on ${hero}. If this is an error, please let my owner <@!${
+                  process.env.ERROR_NOTIFICATION_USER_ID
+                }> know.`
+              );
             }
           }
         );

@@ -41,7 +41,10 @@ module.exports = {
         .then(stats => {
           sendInfo(message, stats);
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+          log(err);
+          message.reply(err);
+        });
     }
   }
 };

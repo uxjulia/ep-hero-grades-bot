@@ -31,7 +31,10 @@ module.exports = {
         .then(stats => {
           sendDefenseGrade(message, stats);
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+          log(err);
+          message.reply(err);
+        });
     }
   }
 };
