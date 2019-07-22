@@ -6,6 +6,7 @@ const Logger = require("./Logger");
 const gradesBase = base("Grades");
 const heroBase = base("Heroes");
 const { getAsync, setAsync } = require("./cache");
+const { log } = require("./utils");
 
 function getHeroData(hero, record) {
   const data = {};
