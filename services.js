@@ -54,7 +54,7 @@ class Service {
               .catch(err => console.error(err));
           });
         } else {
-          console.log("Cached data found.");
+          log("Cached data found.");
           resolve(JSON.parse(cachedData));
         }
       });
@@ -85,7 +85,8 @@ class Service {
               rej(err);
             }
             if (count === 0) {
-              res("Hero not found");
+              log("Hero not found");
+              rej("Hero not found");
             }
           }
         );
@@ -124,8 +125,8 @@ class Service {
               rej(`An error occurred trying to retrieve stats for ${hero}`);
             }
             if (count === 0) {
-              log("No grades found");
-              res(`Titan grades not found for ${hero}`);
+              log("No titan grades found");
+              rej(`Titan grades not found for ${hero}`);
             }
           }
         );
@@ -165,7 +166,8 @@ class Service {
               rej(`An error occurred trying to retrieve stats for ${hero}`);
             }
             if (count === 0) {
-              res(`Defense grades not found for ${hero}`);
+              log("No defense grades found");
+              rej(`Defense grades not found for ${hero}`);
             }
           }
         );
@@ -204,7 +206,8 @@ class Service {
               rej(`An error occurred trying to offense stats for ${hero}`);
             }
             if (count === 0) {
-              res(`Offense grades not found for ${hero}`);
+              log("No offense grades found");
+              rej(`Offense grades not found for ${hero}`);
             }
           }
         );
