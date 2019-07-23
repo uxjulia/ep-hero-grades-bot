@@ -29,7 +29,21 @@ const fetchOCRText = async form => {
           if (json.IsErroredOnProcessing) {
             return false;
           }
-          resolve(json.ParsedResults[0].ParsedText);
+          const lines = json.ParsedResults[0].TextOverlay.Lines;
+          let responseText = "";
+          lines.map(obj => {
+            let words = obj.Words;
+            let text = "";
+            for (let i in words) {
+              if (i != 0) {
+                let nText = text.concat(`${words[i].WordText} `);
+                text = nText;
+              }
+            }
+            let nText = responseText.concat(`${text} \t\r\n`);
+            responseText = nText;
+          });
+          resolve(responseText);
         }
       }
     );
@@ -62,6 +76,8 @@ const getFormData = async message => {
   const url = message.attachments.first().url;
   const filesize = file.filesize;
   const form = {
+    language: "kor",
+    isOverlayRequired: "true",
     isTable: "true",
     filetype: "JPG"
   };
@@ -105,7 +121,7 @@ module.exports = {
               message.channel.send(
                 `An error occurred while parsing data. Please try again.`
               );
-              throw new Error();
+              reject();
             } else {
               log("Sending OCR results...");
               message.channel.send(`Parsing complete! Results:\n \n ${data}`);
