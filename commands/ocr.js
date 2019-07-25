@@ -62,6 +62,7 @@ const getFormData = async message => {
   const url = message.attachments.first().url;
   const filesize = file.filesize;
   const form = {
+    language: "kor",
     isTable: "true",
     filetype: "JPG"
   };
@@ -105,7 +106,7 @@ module.exports = {
               message.channel.send(
                 `An error occurred while parsing data. Please try again.`
               );
-              throw new Error();
+              reject();
             } else {
               log("Sending OCR results...");
               message.channel.send(`Parsing complete! Results:\n \n ${data}`);

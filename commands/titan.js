@@ -14,7 +14,7 @@ function sendTitanGrades(message, data) {
 __
 ${data.heroName}'s overall **titan** grade is **${data.overallGrade}**`
     )
-    .then(() => log(`Successfully retrieved titan data for ${data.heroName}`))
+    .then(() => log(`Successfully sent titan data for ${data.heroName}`))
     .catch(error => console.error(error.message));
 }
 
@@ -23,14 +23,20 @@ module.exports = {
   description: "Get titan grades",
   args: true,
   execute: async function(message, args) {
-    if (args.length) {
-      const hero = getHeroName(args);
-      const Service = new ServiceHandler(hero, "titan");
-      Service.getData()
-        .then(stats => {
-          sendTitanGrades(message, stats);
-        })
-        .catch(err => console.error(err));
-    }
+    return new Promise((res, rej) => {
+      if (args.length) {
+        const hero = getHeroName(args);
+        const Service = new ServiceHandler(hero, "titan");
+        Service.getData()
+          .then(stats => {
+            sendTitanGrades(message, stats);
+            res();
+          })
+          .catch(err => {
+            message.reply(err);
+            rej(err);
+          });
+      }
+    });
   }
 };

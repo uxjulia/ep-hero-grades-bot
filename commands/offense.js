@@ -14,7 +14,7 @@ function sendOffenseGrade(message, data) {
 __
 ${data.heroName}'s overall **offense** grade is **${data.overallGrade}**`
     )
-    .then(() => log(`Successfully retrieved offense data for ${data.heroName}`))
+    .then(() => log(`Successfully sent offense data for ${data.heroName}`))
     .catch(error => console.error(error.message));
 }
 
@@ -23,14 +23,20 @@ module.exports = {
   description: "Get offense grades for a hero",
   args: true,
   execute: async function(message, args) {
-    if (args.length) {
-      const hero = getHeroName(args);
-      const Service = new ServiceHandler(hero, "offense");
-      Service.getData()
-        .then(stats => {
-          sendOffenseGrade(message, stats);
-        })
-        .catch(err => console.error(err));
-    }
+    return new Promise((res, rej) => {
+      if (args.length) {
+        const hero = getHeroName(args);
+        const Service = new ServiceHandler(hero, "offense");
+        Service.getData()
+          .then(stats => {
+            sendOffenseGrade(message, stats);
+            res();
+          })
+          .catch(err => {
+            message.reply(err);
+            rej(err);
+          });
+      }
+    });
   }
 };

@@ -25,7 +25,7 @@ Offense grade: **${data.oOffense}**
 __
 ${data.heroName}'s overall grade is **${data.overallGrade}**`
     )
-    .then(() => log(`Successfully retrieved info for ${data.heroName}`))
+    .then(() => log(`Successfully sent info for ${data.heroName}`))
     .catch(error => console.error(error.message));
 }
 
@@ -34,14 +34,20 @@ module.exports = {
   description: "Get basic hero info",
   args: true,
   execute: async function(message, args) {
-    if (args.length) {
-      const hero = getHeroName(args);
-      const Service = new ServiceHandler(hero, "info");
-      Service.getData()
-        .then(stats => {
-          sendInfo(message, stats);
-        })
-        .catch(err => console.error(err));
-    }
+    return new Promise((res, rej) => {
+      if (args.length) {
+        const hero = getHeroName(args);
+        const Service = new ServiceHandler(hero, "info");
+        Service.getData()
+          .then(stats => {
+            sendInfo(message, stats);
+            res();
+          })
+          .catch(err => {
+            message.reply(err); // TODO move this method to bot.js
+            rej(err);
+          });
+      }
+    });
   }
 };
