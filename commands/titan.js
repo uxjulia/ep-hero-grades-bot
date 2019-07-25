@@ -32,7 +32,10 @@ module.exports = {
             sendTitanGrades(message, stats);
             res();
           })
-          .catch(err => rej(err));
+          .catch(err => {
+            message.reply(err);
+            rej(err);
+          });
       }
     });
   }

@@ -33,7 +33,10 @@ module.exports = {
             sendDefenseGrade(message, stats);
             res();
           })
-          .catch(err => rej(err));
+          .catch(err => {
+            message.reply(err);
+            rej(err);
+          });
       }
     });
   }

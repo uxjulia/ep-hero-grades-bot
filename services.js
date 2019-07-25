@@ -6,6 +6,7 @@ const Logger = require("./Logger");
 const gradesBase = base("Grades");
 const heroBase = base("Heroes");
 const { getAsync, setAsync } = require("./cache");
+const { log } = require("./utils");
 
 function getHeroData(hero, record) {
   const data = {};
@@ -53,12 +54,9 @@ class Service {
                 })
                 .catch(err => console.error(err));
             })
-            .catch(err => {
-              console.error(err);
-              reject("Uh oh. I can't find data on that hero");
-            });
+            .catch(err => reject(err));
         } else {
-          console.log("Cached data found.");
+          log("Cached data found.");
           resolve(JSON.parse(cachedData));
         }
       });
@@ -89,7 +87,11 @@ class Service {
               rej(err);
             }
             if (count === 0) {
-              rej(`Info for ${hero} not found`);
+              rej(
+                `Hmm.. I couldn't find info on ${hero}. If this is an error, please let my owner <@!${
+                  process.env.ERROR_NOTIFICATION_USER_ID
+                }> know.`
+              );
             }
           }
         );
@@ -127,7 +129,8 @@ class Service {
               rej(`An error occurred trying to retrieve stats for ${hero}`);
             }
             if (count === 0) {
-              rej(`Titan grades for ${hero} not found`);
+              log("No titan grades found");
+              rej(`Titan grades not found for ${hero}`);
             }
           }
         );
@@ -166,7 +169,8 @@ class Service {
               rej(`An error occurred trying to retrieve stats for ${hero}`);
             }
             if (count === 0) {
-              rej(`Defense grades for ${hero} not found`);
+              log("No defense grades found");
+              rej(`Defense grades not found for ${hero}`);
             }
           }
         );
@@ -204,7 +208,8 @@ class Service {
               rej(`An error occurred trying to offense stats for ${hero}`);
             }
             if (count === 0) {
-              rej(`Offense grades for ${hero} not found`);
+              log("No offense grades found");
+              rej(`Offense grades not found for ${hero}`);
             }
           }
         );

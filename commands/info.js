@@ -44,6 +44,7 @@ module.exports = {
             res();
           })
           .catch(err => {
+            message.reply(err); // TODO move this method to bot.js
             rej(err);
           });
       }

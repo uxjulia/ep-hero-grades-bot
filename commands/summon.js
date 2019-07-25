@@ -77,7 +77,6 @@ module.exports = {
   name: "summon",
   description:
     "Test your luck and summon a hero without actually summoning a hero!",
-  args: true,
   execute(message, args) {
     const summon = new Summon(args[0], args[1]);
     message.reply(summon.pull());
