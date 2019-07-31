@@ -62,7 +62,7 @@ const getFormData = async message => {
   const url = message.attachments.first().url;
   const filesize = file.filesize;
   const form = {
-    language: "kor",
+    language: process.env.OCRLANGUAGE,
     isTable: "true",
     filetype: "JPG"
   };
