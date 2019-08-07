@@ -33,7 +33,6 @@ module.exports = {
             res();
           })
           .catch(err => {
-            message.reply(err);
             rej(err);
           });
       }
