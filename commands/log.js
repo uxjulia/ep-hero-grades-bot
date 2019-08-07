@@ -99,14 +99,14 @@ module.exports = {
     };
 
     const postToSheets = async formData => {
-      const response = await postToGoogle(formData);
-      return response;
+      try {
+        const response = await postToGoogle(formData);
+        return response;
+      } catch (err) {
+        return "An error ocurred while attempting to post to Google";
+      }
     };
 
-    postToSheets(formData)
-      .then(msg => message.channel.send(msg))
-      .catch(error => {
-        log("error posting", error);
-      });
+    postToSheets(formData).then(msg => message.channel.send(msg));
   }
 };
