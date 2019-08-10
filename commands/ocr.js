@@ -83,9 +83,7 @@ module.exports = {
   args: false,
   execute: async function(message) {
     if (message.attachments.size < 1 || message.attachments.size > 1) {
-      message.channel.send(
-        "Please attach a single image for text to be parsed. Multiple attachments is not supported."
-      );
+      return "Please attach a single image for text to be parsed. Multiple attachments is not supported.";
     }
 
     if (message.attachments.size === 1) {
@@ -103,22 +101,16 @@ module.exports = {
         sendParsedText()
           .then(data => {
             if (data === false) {
-              message.channel.send(
-                `An error occurred while parsing data. Please try again.`
-              );
-              reject();
+              reject(`An error occurred while parsing data. Please try again.`);
             } else {
-              log("Sending OCR results...");
-              message.channel.send(`Parsing complete! Results:\n \n ${data}`);
               resolve(data);
             }
           })
           .catch(error => {
             log(error);
-            message.channel.send(
+            reject(
               `An error occurred while trying to reach OCR service. Please try again.`
             );
-            reject(error);
           })
           .finally(() => {
             if (file.filesize > 1000000)

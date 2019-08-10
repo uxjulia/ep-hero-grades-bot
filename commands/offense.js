@@ -1,10 +1,8 @@
 const ServiceHandler = require("../services");
 const { getHeroName, log } = require("../utils");
 
-function sendOffenseGrade(message, data) {
-  message.channel
-    .send(
-      `Here are ${data.heroName}'s **offense** grades:
+function getOffenseMessage(data) {
+  const message = `Here are ${data.heroName}'s **offense** grades:
 
 **Speed**: ${data.speed}
 **Effect**: ${data.effect}
@@ -12,10 +10,8 @@ function sendOffenseGrade(message, data) {
 **Versatility**: ${data.versatility}
 **War**: ${data.war}
 __
-${data.heroName}'s overall **offense** grade is **${data.overallGrade}**`
-    )
-    .then(() => log(`Successfully sent offense data for ${data.heroName}`))
-    .catch(error => console.error(error.message));
+${data.heroName}'s overall **offense** grade is **${data.overallGrade}**`;
+  return message;
 }
 
 module.exports = {
@@ -29,11 +25,10 @@ module.exports = {
         const Service = new ServiceHandler(hero, "offense");
         Service.getData()
           .then(stats => {
-            sendOffenseGrade(message, stats);
-            res();
+            const offenseMessage = getOffenseMessage(stats);
+            res(offenseMessage);
           })
           .catch(err => {
-            // message.reply(err);
             rej(err);
           });
       }

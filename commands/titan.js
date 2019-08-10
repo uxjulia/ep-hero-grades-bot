@@ -1,10 +1,8 @@
 const ServiceHandler = require("../services");
 const { getHeroName, log } = require("../utils");
 
-function sendTitanGrades(message, data) {
-  message.channel
-    .send(
-      `Here are ${data.heroName}'s **titan** grades:
+function getTitanMessage(data) {
+  return `Here are ${data.heroName}'s **titan** grades:
 
 **Stamina**: ${data.stamina}
 **Passive**: ${data.passive}
@@ -12,10 +10,7 @@ function sendTitanGrades(message, data) {
 **Tiles**: ${data.tiles}
 **Versatility**: ${data.versatility}
 __
-${data.heroName}'s overall **titan** grade is **${data.overallGrade}**`
-    )
-    .then(() => log(`Successfully sent titan data for ${data.heroName}`))
-    .catch(error => console.error(error.message));
+${data.heroName}'s overall **titan** grade is **${data.overallGrade}**`;
 }
 
 module.exports = {
@@ -29,8 +24,8 @@ module.exports = {
         const Service = new ServiceHandler(hero, "titan");
         Service.getData()
           .then(stats => {
-            sendTitanGrades(message, stats);
-            res();
+            const titanMessage = getTitanMessage(stats);
+            res(titanMessage);
           })
           .catch(err => {
             rej(err);

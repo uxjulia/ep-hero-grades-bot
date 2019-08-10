@@ -13,18 +13,19 @@ module.exports = {
   aliases: "level",
   description: "Get best levels for filling elemental chests",
   args: true,
-  execute(message, args) {
-    let element = args[0].toUpperCase();
-    if (!["FIRE", "HOLY", "ICE", "DARK", "NATURE"].includes(element)) {
-      log(`Invalid element entered: ${element}`);
-      return message.channel.send(
-        `${element} is not a valid element. Try one of the following: Fire, Ice, Nature, Holy, or Dark`
-      );
+  execute: async function(message, args) {
+    try {
+      let element = args[0].toUpperCase();
+      if (!["FIRE", "HOLY", "ICE", "DARK", "NATURE"].includes(element)) {
+        log(`Invalid element entered: ${element}`);
+        throw new Error(
+          `${element} is not a valid element. Try one of the following: Fire, Ice, Nature, Holy, or Dark`
+        );
+      }
+      let levels = data[args[0].toUpperCase()];
+      return `Best level(s) for ${element} monsters: ${levels}`;
+    } catch (err) {
+      return new Error(err);
     }
-    let levels = data[args[0].toUpperCase()];
-    message.channel
-      .send(`Best level(s) for ${element} monsters: ${levels}`)
-      .then(() => log(`Successfully sent reply for ${element} monsters`))
-      .catch(error => console.error(error.message));
   }
 };

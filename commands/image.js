@@ -78,10 +78,9 @@ module.exports = {
     if (args.length) {
       try {
         const hero = getHeroName(args);
-        return getImage(hero, message);
-      } catch (error) {
-        console.error(error);
-        message.reply("Uh oh. Something went wrong. Please try again.");
+        getImage(hero, message);
+      } catch (err) {
+        return new Error("Uh oh. Something went wrong. Please try again.");
       }
     }
   }

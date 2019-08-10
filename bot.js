@@ -2,7 +2,7 @@ const fs = require("fs");
 const Discord = require("discord.js");
 const prefix = process.env.PREFIX;
 const token = process.env.TOKEN;
-const notifyUser = process.env.ERROR_NOTIFICATION_USER_ID;
+const notifyChannel = process.env.ERROR_NOTIFICATION_CHANNEL;
 const { log } = require("./utils");
 
 const client = new Discord.Client();
@@ -41,16 +41,22 @@ client.on("message", message => {
         "No arguments were provided for this command. Please try again"
       );
     }
-    command.execute(message, args).catch(err => {
-      message.channel.send(err);
-      client.users
-        .get(notifyUser)
-        .send(
-          `An error occurred in ${
-            message.guild.name
-          } while executing command ${commandName.toUpperCase()} with args: ${args}.\nError sent to user: ${err}`
-        );
-    });
+    command
+      .execute(message, args)
+      .then(resp => {
+        if (resp !== undefined)
+          message.channel.send(resp).catch(err => log(err));
+      })
+      .catch(err => {
+        message.channel.send(err);
+        client.channels
+          .get(notifyChannel)
+          .send(
+            `An error occurred in ${
+              message.guild.name
+            } while executing command ${commandName.toUpperCase()} with args: ${args}`
+          );
+      });
   } catch (err) {
     log(`Something went wrong while executing the command: ${command}`);
     log(err);

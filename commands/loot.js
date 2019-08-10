@@ -26,20 +26,20 @@ module.exports = {
   aliases: ["titan-loot"],
   description: "Calculate damage needed for various titan loot tiers",
   args: true,
-  execute(message, args) {
-    const hp = args[0];
-    if (isNaN(hp)) {
-      log(`Invalid HP value given: ${hp}`);
-      message.channel.send(
-        "Total titan health needs to be a number, ex: `!loot 4254000`"
-      );
-      return;
+  execute: async function(message, args) {
+    try {
+      const hp = args[0];
+      if (isNaN(hp)) {
+        log(`Invalid HP value given: ${hp}`);
+        throw new Error(
+          "Total titan health needs to be a number, ex: `!loot 4254000`"
+        );
+      }
+      const dmg = damage(hp);
+      const msg = getMessage(dmg);
+      return msg;
+    } catch (err) {
+      return new Error(err);
     }
-    const dmg = damage(hp);
-    const msg = getMessage(dmg);
-    message.channel
-      .send(msg)
-      .then(() => log(`Successfully sent reply for titan loot`))
-      .catch(error => console.error(error.message));
   }
 };

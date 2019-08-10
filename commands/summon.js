@@ -77,8 +77,13 @@ module.exports = {
   name: "summon",
   description:
     "Test your luck and summon a hero without actually summoning a hero!",
-  execute(message, args) {
-    const summon = new Summon(args[0], args[1]);
-    message.reply(summon.pull());
+  execute: async function(message, args) {
+    try {
+      const summon = new Summon(args[0], args[1]);
+      const pull = summon.pull();
+      return pull;
+    } catch (err) {
+      return new Error(err);
+    }
   }
 };

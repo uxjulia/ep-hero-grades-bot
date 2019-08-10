@@ -16,21 +16,14 @@ module.exports = {
   aliases: "emoji",
   description: "Get the list of chat emoji codes",
   args: false,
-  execute: function(message) {
+  execute: async function() {
     try {
-      loadImage(`${process.env.AWSMISCURL}/emojis.jpg`).then(img => {
+      return loadImage(`${process.env.AWSMISCURL}/emojis.jpg`).then(img => {
         const emojiImg = prepImage(img);
-        message.channel
-          .send(emojiImg)
-          .then(() => log("Successfully sent emoji image"))
-          .catch(err => console.log(err));
+        return emojiImg;
       });
     } catch (err) {
-      message.channel
-        .send("Whoops! An error occurred. Please try again")
-        .then(() => log("Error occured while attempting to send emoji image."))
-        .catch(err => console.log(err));
-      log(err);
+      return new Error("Whoops! An error occurred. Please try again");
     }
   }
 };
