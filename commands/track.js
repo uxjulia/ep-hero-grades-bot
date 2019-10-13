@@ -5,7 +5,7 @@ const Ocr = require("./ocr");
 const postData = async (dataType, parsedText, date) => {
   log("Sending to Google Sheets");
   return new Promise((resolve, reject) => {
-    const url = process.env.GSCRIPTURL;
+    const url = process.env.GSCRIPT_URL;
     const form = {
       data: parsedText,
       date: date,
