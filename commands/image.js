@@ -17,7 +17,7 @@ const getImage = async (hero, message) => {
 
     const awsName = hero.replace(/\s/g, ""); // Remove white space for AWS
     let awsImage = Canvas.loadImage(
-      `${process.env.AWSHEROESURL}/${awsName}.png`
+      `${process.env.AWS_HEROES_URL}/${awsName}.png`
     );
     awsImage
       .then(img => {
@@ -28,7 +28,7 @@ const getImage = async (hero, message) => {
       .catch(() => {
         console.error(`Image for ${awsName} not in AWS, trying JPG...`);
         let jpgImage = Canvas.loadImage(
-          `${process.env.AWSHEROESURL}/${awsName}.jpg`
+          `${process.env.AWS_HEROES_URL}/${awsName}.jpg`
         );
         jpgImage
           .then(img => {

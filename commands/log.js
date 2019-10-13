@@ -7,7 +7,7 @@ const postToGoogle = async data => {
   return new Promise((resolve, reject) => {
     request.post(
       {
-        url: process.env.GSCRIPTURL,
+        url: process.env.GSCRIPT_URL,
         formData: data
       },
       function optionalCallback(err, httpResponse, body) {
@@ -40,7 +40,7 @@ module.exports = {
     // verify where the message is coming from so that tracking data isn't initiated
     // from other alliances
     try {
-      if (message.channel.id !== process.env.CHANNELID) {
+      if (message.channel.id !== process.env.AUTHORIZED_CHANNEL_ID) {
         throw new Error("That command is not allowed from this channel.");
       }
 

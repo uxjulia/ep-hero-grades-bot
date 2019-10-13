@@ -32,7 +32,7 @@ module.exports = {
       // Since this bot is installed on other Discord Servers for other E&P Alliances,
       // verify where the message is coming from so that tracking data isn't initiated
       // from other alliances
-      if (message.channel.id !== process.env.CHANNELID) {
+      if (message.channel.id !== process.env.AUTHORIZED_CHANNEL_ID) {
         return "That command is not allowed from this channel.";
       }
       // Check if arguments were provided

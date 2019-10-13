@@ -1,6 +1,6 @@
 const Airtable = require("airtable");
-const base = new Airtable({ apiKey: process.env.AIRTABLEAPI }).base(
-  process.env.AIRTABLEBASE
+const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
+  process.env.AIRTABLE_BASE_ID
 );
 const Logger = require("./Logger");
 const gradesBase = base("Grades");
@@ -88,9 +88,7 @@ class Service {
             }
             if (count === 0) {
               rej(
-                `Hmm.. I couldn't find info on ${hero}. If this is an error, please let my owner <@!${
-                  process.env.ERROR_NOTIFICATION_USER_ID
-                }> know.`
+                `Hmm.. I couldn't find info on ${hero}. If this is an error, please let my owner <@!${process.env.ERROR_NOTIFICATION_USER_ID}> know.`
               );
             }
           }

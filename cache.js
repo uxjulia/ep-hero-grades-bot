@@ -1,6 +1,6 @@
 const { promisify } = require("util");
 const redis = require("redis");
-const cache = redis.createClient(process.env.REDISCLOUD_URL, {
+const cache = redis.createClient(process.env.REDIS_CLOUD_URL, {
   no_ready_check: true
 });
 

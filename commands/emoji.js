@@ -18,7 +18,7 @@ module.exports = {
   args: false,
   execute: async function() {
     try {
-      return loadImage(`${process.env.AWSMISCURL}/emojis.jpg`).then(img => {
+      return loadImage(`${process.env.AWS_MISC_URL}/emojis.jpg`).then(img => {
         const emojiImg = prepImage(img);
         return emojiImg;
       });

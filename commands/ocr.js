@@ -11,9 +11,9 @@ const fetchOCRText = async form => {
       {
         timeout: 60000,
         forever: true,
-        url: process.env.OCRURL,
+        url: process.env.OCR_URL,
         headers: {
-          apiKey: process.env.OCRAPIKEY,
+          apiKey: process.env.OCR_API_KEY,
           "Content-Type": "application/x-www-form-urlencoded"
         },
         formData: form
@@ -62,7 +62,7 @@ const getFormData = async message => {
   const url = message.attachments.first().url;
   const filesize = file.filesize;
   const form = {
-    language: process.env.OCRLANGUAGE,
+    language: process.env.OCR_LANGUAGE,
     isTable: "true",
     filetype: "JPG"
   };
