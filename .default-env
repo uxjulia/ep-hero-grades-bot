@@ -1,11 +1,57 @@
-# Uncomment the lines below and rename this file to .env
+######################################################
+###                                                ###
+###    ----- CORE ENVIRONMENT VARIABLES -----      ###
+###    The core variables to be able to get hero   ###
+###    stats and grades. Note this will NOT work   ###
+###    for the general public.                     ###
+###                                                ###
+######################################################
 
-# PREFIX=!
-# TOKEN=INSERT AIRTABLE TOKEN HERE
-# AIRTABLEAPI=INSERT AIRTABLE API KEY HERE
-# AIRTABLEBASE=INSERT AIRTABLE BASE ID
-# GSCRIPTURL=INSERT GOOGLE APPS SCRIPT HERE
-# OCRURL=https://api.ocr.space/parse/image
-# OCRAPIKEY=INSERT OCR.SPACE API KEY HERE
-# REDISCLOUD_URL=INSERT REDISCLOUD URL FOR CACHING
-# ERROR_NOTIFICATION_USER_ID=INSERT DISCORD USER ID TO NOTIFY OF ERRORS
+###  The prefix that the bot looks for to determine a bot command was invoked
+PREFIX=!
+
+### Your Discord bot's unique token
+TOKEN=INSERT YOUR DISCORD BOT TOKEN HERE
+
+###  Airtable credentials to read hero stats and grades
+AIRTABLE_API_KEY=INSERT AIRTABLE API KEY HERE
+AIRTABLE_BASE_ID=INSERT AIRTABLE BASE ID
+
+
+######################################################
+###                                                ###
+###    --- OPTIONAL ENVIRONMENT VARIABLES -----    ###
+###    Variables needed to utilize the advanced    ###
+###    data tracking features of the bot           ###
+###                                                ###
+######################################################
+
+### Redis Cloud for data caching
+### You can get a free tier Redis Cloud instance with Heroku addons
+# REDIS_CLOUD_URL=INSERT REDIS CLOUD URL
+
+###  OCR details required for !ocr and !track commands to work correctly
+###  Default OCR langauge is "eng" but you can change it to any valid supported langauge. 
+###  For more info visit https://ocr.space/ocrapi
+OCR_URL=https://api.ocr.space/parse/image
+OCR_API_KEY=INSERT OCR.SPACE API KEY HERE
+OCR_LANGUAGE=eng
+
+###  Insert link to your own Google AppScripts to insert data into a Google Spreadsheet
+###  Learn more about AppScripts here (https://developers.google.com/apps-script/articles/tutorials)
+###  This is used by !track and !log commands and only works from my own Discord server's channel
+# GSCRIPT_URL=INSERT GOOGLE APPS SCRIPT URL HERE
+
+### The Discord user ID the bot tells people to contact if an error occurs
+# ERROR_NOTIFICATION_USER_ID=INSERT DISCORD USER ID
+
+### Channel ID where the bot should send error notifications to
+# ERROR_NOTIFICATION_CHANNEL=INSERT CHANNEL ID
+
+### Channel ID the bot checks to see if !track and !log commands are allowed to be used
+# AUTHORIZED_CHANNEL_ID=INSERT CHANNEL ID
+
+### Amazon S3 buckets where images are stored
+### Used with !image and !emoji commands
+# AWS_MISC_URL=URL TO AMAZON S3 BUCKET
+# AWS_HEROES_URL=URL TO AMAZON S3 BUCKET
