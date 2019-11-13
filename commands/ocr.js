@@ -27,7 +27,7 @@ const fetchOCRText = async form => {
         } else {
           const json = JSON.parse(body);
           if (json.IsErroredOnProcessing) {
-            return false;
+            reject(json.ErrorMessage);
           }
           resolve(json.ParsedResults[0].ParsedText);
         }
