@@ -9,7 +9,6 @@ const { getAsync, setAsync } = require("./cache");
 const { log } = require("./utils");
 
 function getHeroData(hero, json) {
-  console.log(json);
   const record = json.fields;
   const data = {};
   data.heroName = hero;
