@@ -5,12 +5,28 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
 const Logger = require("./Logger");
 const gradesBase = base("Grades");
 const heroBase = base("Heroes");
+const hotmBase = base("Hotm");
 const { getAsync, setAsync } = require("./cache");
 const { log } = require("./utils");
 
-function getHeroData(hero, json) {
+async function getHotm(id) {
+  return new Promise((resolve, reject) => {
+    hotmBase
+      .find(id)
+      .then(data => {
+        resolve(data._rawJson.fields);
+      })
+      .catch(err => {
+        resolve(undefined);
+      });
+  });
+}
+
+async function getHeroData(hero, json) {
   const record = json.fields;
   const data = {};
+  let hotmInfo = await getHotm(record.hotm_link_id);
+
   data.heroName = hero;
   data.overallGrade = record.grade;
   data.oTitan = record.titanGrade;
@@ -28,6 +44,7 @@ function getHeroData(hero, json) {
   data.specialName = record.specialName;
   data.mana = record.mana;
   data.limited = record.limited;
+  data.hotmInfo = hotmInfo;
   return data;
 }
 

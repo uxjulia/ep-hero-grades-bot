@@ -7,9 +7,15 @@ async function getInfoMessage(data) {
     const message = `Here's some information on ${data.heroName}:
 **Element**: ${data.element}
 **Stars**: ${data.stars}
-**Limited Availability?**: ${data.limited === true ? "Yes" : "No"}
 **Class**: ${data.class}
 **Family**: ${family}
+**Limited Availability?**: ${data.limited === true ? "Yes" : "No"}${
+      data.hotmInfo !== undefined ? "\n**Hero of The Month**:" : ""
+    } ${
+      data.hotmInfo !== undefined
+        ? `${data.hotmInfo.month}/${data.hotmInfo.year}`
+        : ""
+    }
 
 **Power**: ${data.power}  |  **Attack**: ${data.attack}  |  **Defense**: ${
       data.defense
