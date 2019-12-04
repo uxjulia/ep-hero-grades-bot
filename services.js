@@ -8,25 +8,27 @@ const heroBase = base("Heroes");
 const { getAsync, setAsync } = require("./cache");
 const { log } = require("./utils");
 
-function getHeroData(hero, record) {
+function getHeroData(hero, json) {
+  console.log(json);
+  const record = json.fields;
   const data = {};
   data.heroName = hero;
-  data.overallGrade = record.get("Grade");
-  data.oTitan = record.get("Titan Grade")[0];
-  data.oDefense = record.get("Defense Grade")[0];
-  data.oOffense = record.get("Offense Grade")[0];
-  data.element = record.get("Element");
-  data.class = record.get("Class");
-  data.family = record.get("Family");
-  data.stars = record.get("Stars");
-  data.power = record.get("Power");
-  data.attack = record.get("Attack");
-  data.defense = record.get("Defense");
-  data.health = record.get("Health");
-  data.special = record.get("Special");
-  data.specialName = record.get("Special Name");
-  data.mana = record.get("Mana");
-  data.limited = record.get("Limited") === "TRUE" ? "Yes" : "No";
+  data.overallGrade = record.grade;
+  data.oTitan = record.titanGrade;
+  data.oDefense = record.defenseGrade;
+  data.oOffense = record.offenseGrade;
+  data.element = record.element;
+  data.class = record.class;
+  data.family = record.family;
+  data.stars = record.stars;
+  data.power = record.power;
+  data.attack = record.attack;
+  data.defense = record.defense;
+  data.health = record.health;
+  data.special = record.special;
+  data.specialName = record.specialName;
+  data.mana = record.mana;
+  data.limited = record.limited;
   return data;
 }
 
@@ -38,28 +40,11 @@ class Service {
 
   async getData() {
     return new Promise((resolve, reject) => {
-      getAsync(`${this.option}-${this.hero}`).then(cachedData => {
-        if (cachedData === null) {
-          console.log("No cached data, getting from database");
-          this[this.option](this.hero)
-            .then(stats => {
-              setAsync(
-                `${this.option}-${this.hero}`,
-                JSON.stringify(stats),
-                "EX",
-                86400
-              )
-                .then(() => {
-                  resolve(stats);
-                })
-                .catch(err => console.error(err));
-            })
-            .catch(err => reject(err));
-        } else {
-          log("Cached data found.");
-          resolve(JSON.parse(cachedData));
-        }
-      });
+      this[this.option](this.hero)
+        .then(stats => {
+          resolve(stats);
+        })
+        .catch(err => reject(err));
     });
   }
 
@@ -73,10 +58,10 @@ class Service {
         .eachPage(
           function page(records, fetchNextPage) {
             records.forEach(function(record) {
-              let heroName = record.get("Hero");
+              let heroName = record.get("hero");
               if (heroName.toLowerCase() === hero) {
                 count++;
-                const data = getHeroData(heroName, record);
+                const data = getHeroData(heroName, record._rawJson);
                 res(data);
               }
             });
