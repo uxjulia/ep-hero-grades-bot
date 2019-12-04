@@ -2,11 +2,9 @@ const Airtable = require("airtable");
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
   process.env.AIRTABLE_BASE_ID
 );
-const Logger = require("./Logger");
 const gradesBase = base("Grades");
 const heroBase = base("Heroes");
 const hotmBase = base("Hotm");
-const { getAsync, setAsync } = require("./cache");
 const { log } = require("./utils");
 
 async function getHotm(id) {

@@ -1,10 +1,21 @@
-// const Database = require('../Database')
 const Discord = require("discord.js");
 const images = require("../images");
 const Canvas = require("canvas");
-const Logger = require("../Logger");
 
 const { getHeroName, log } = require("../utils");
+
+const sendImage = function(image, message, isUpdated) {
+  const messageWithNote = "Note: This image needs to be updated";
+  return isUpdated === false
+    ? message.channel
+        .send(messageWithNote, image)
+        .then(() => log("Successfully sent image"))
+        .catch(error => console.error(error))
+    : message.channel
+        .send(image)
+        .then(() => log("Successfully sent image"))
+        .catch(error => console.error(error));
+};
 
 const getImage = async (hero, message) => {
   try {
@@ -12,7 +23,7 @@ const getImage = async (hero, message) => {
     const ctx = canvas.getContext("2d");
     const sendToDiscord = inAws => {
       const image = new Discord.Attachment(canvas.toBuffer(), `${hero}.png`);
-      Logger.success["withImage"](image, message, inAws);
+      sendImage(image, message, inAws);
     };
 
     const awsName = hero.replace(/\s/g, ""); // Remove white space for AWS
