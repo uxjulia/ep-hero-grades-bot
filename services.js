@@ -91,17 +91,17 @@ class Service {
         .eachPage(
           function page(records, fetchNextPage) {
             records.forEach(function(record) {
-              let heroName = record.get("Hero");
+              let heroName = record.get("hero");
               if (heroName.toLowerCase() === hero) {
                 count++;
                 const data = {};
                 data.heroName = heroName;
-                data.overallGrade = record.get("Titan Overall");
-                data.stamina = record.get("Titan Stamina");
-                data.passive = record.get("Titan Passive");
-                data.direct = record.get("Titan Direct");
-                data.tiles = record.get("Titan Tiles");
-                data.versatility = record.get("Titan Versatility");
+                data.overallGrade = record.get("titanOverall");
+                data.stamina = record.get("titanStamina");
+                data.passive = record.get("titanPassive");
+                data.direct = record.get("titanDirect");
+                data.tiles = record.get("titanTiles");
+                data.versatility = record.get("titanVersatility");
                 res(data);
               }
             });
@@ -130,18 +130,18 @@ class Service {
         .eachPage(
           function page(records, fetchNextPage) {
             records.forEach(function(record) {
-              let heroName = record.get("Hero");
+              let heroName = record.get("hero");
               if (heroName.toLowerCase() === hero) {
                 count++;
                 const data = {};
                 data.heroName = heroName;
-                data.overallGrade = record.get("Defense Overall");
-                data.speed = record.get("Defense Speed");
-                data.effect = record.get("Defense Effect");
-                data.stamina = record.get("Defense Stamina");
-                data.strength = record.get("Defense Strength");
-                data.tank = record.get("Defense Tank");
-                data.support = record.get("Defense Flank");
+                data.overallGrade = record.get("defenseOverall");
+                data.speed = record.get("defenseSpeed");
+                data.effect = record.get("defenseEffect");
+                data.stamina = record.get("defenseStamina");
+                data.strength = record.get("defenseStrength");
+                data.tank = record.get("defenseTank");
+                data.support = record.get("defenseFlank");
                 res(data);
               }
             });
@@ -170,17 +170,17 @@ class Service {
         .eachPage(
           function page(records, fetchNextPage) {
             records.forEach(function(record) {
-              let heroName = record.get("Hero");
+              let heroName = record.get("hero");
               if (heroName.toLowerCase() === hero) {
                 count++;
                 const data = {};
                 data.heroName = heroName;
-                data.overallGrade = record.get("Offense Overall");
-                data.speed = record.get("Offense Speed");
-                data.effect = record.get("Offense Effect");
-                data.stamina = record.get("Offense Stamina");
-                data.war = record.get("Offense War");
-                data.versatility = record.get("Offense Versatility");
+                data.overallGrade = record.get("offenseOverall");
+                data.speed = record.get("offenseSpeed");
+                data.effect = record.get("offenseEffect");
+                data.stamina = record.get("offenseStamina");
+                data.war = record.get("offenseWar");
+                data.versatility = record.get("offenseVersatility");
                 res(data);
               }
             });
