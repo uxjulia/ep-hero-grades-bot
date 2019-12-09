@@ -40,7 +40,11 @@ const compressImage = async (fileUrl, fileName = "tempFile") => {
   await Jimp.read(fileUrl)
     .then(image => {
       return image
-        .resize(440, Jimp.AUTO) // Resize
+        .resize(1000, Jimp.AUTO) // Resize
+        .rgba(false)
+        .greyscale()
+        .contrast(1)
+        .posterize(2)
         .quality(80) // set JPEG quality
         .write(fileName); // save
     })
@@ -64,15 +68,12 @@ const getFormData = async message => {
   const form = {
     language: process.env.OCR_LANGUAGE,
     isTable: "true",
-    filetype: "JPG"
+    filetype: "JPG",
+    scale: "true",
+    OCREngine: 2
   };
-  if (filesize > 1000000) {
-    message.channel.send("Compressing image...");
-    let tempFileName = `${message.channel.name}-temp-file.jpg`;
-    form.file = await compressImage(url, tempFileName);
-  } else {
-    form.url = url;
-  }
+  let tempFileName = `${message.channel.name}-temp-file.jpg`;
+  form.file = await compressImage(url, tempFileName);
   return form;
 };
 
@@ -113,10 +114,9 @@ module.exports = {
             );
           })
           .finally(() => {
-            if (file.filesize > 1000000)
-              removeTempFile(fileName)
-                .then(() => log(`${fileName} was successfully deleted`))
-                .catch(err => log(err));
+            removeTempFile(fileName)
+              .then(() => log(`${fileName} was successfully deleted`))
+              .catch(err => log(err));
           });
       });
     }
