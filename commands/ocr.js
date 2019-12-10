@@ -70,7 +70,7 @@ const getFormData = async message => {
     isTable: "true",
     filetype: "JPG",
     scale: "true",
-    OCREngine: 2
+    OCREngine: process.env.OCR_ENGINE
   };
   let tempFileName = `${message.channel.name}-temp-file.jpg`;
   form.file = await compressImage(url, tempFileName);
