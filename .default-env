@@ -36,6 +36,7 @@ AIRTABLE_BASE_ID=INSERT AIRTABLE BASE ID
 OCR_URL=https://api.ocr.space/parse/image
 OCR_API_KEY=INSERT OCR.SPACE API KEY HERE
 OCR_LANGUAGE=eng
+OCR_ENGINE=1
 
 ###  Insert link to your own Google AppScripts to insert data into a Google Spreadsheet
 ###  Learn more about AppScripts here (https://developers.google.com/apps-script/articles/tutorials)
