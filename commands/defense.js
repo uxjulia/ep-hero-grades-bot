@@ -5,11 +5,12 @@ function getDefenseMessage(data) {
   const message = `Here are ${data.heroName}'s **defense** grades:
 
 **Speed**: ${data.speed}
-**Effect**: ${data.effect}
 **Stamina**: ${data.stamina}
-**Strength**: ${data.strength}
+**Passive Damage**: ${data.passive}
+**Direct Damage**: ${data.direct}
 **Tank**: ${data.tank}
-**Support**: ${data.support}
+**Flank**: ${data.flank}
+**Wing**: ${data.wing}
 __
 ${data.heroName}'s overall **defense** grade is **${data.overallGrade}**`;
   return message;

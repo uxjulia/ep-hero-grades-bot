@@ -151,11 +151,12 @@ class Service {
                 data.heroName = heroName;
                 data.overallGrade = record.get("defenseOverall");
                 data.speed = record.get("defenseSpeed");
-                data.effect = record.get("defenseEffect");
                 data.stamina = record.get("defenseStamina");
-                data.strength = record.get("defenseStrength");
+                data.passive = record.get("defensePassive");
+                data.direct = record.get("defenseDirect");
                 data.tank = record.get("defenseTank");
-                data.support = record.get("defenseFlank");
+                data.flank = record.get("defenseFlank");
+                data.wing = record.get("defenseWing");
                 res(data);
               }
             });
@@ -191,10 +192,10 @@ class Service {
                 data.heroName = heroName;
                 data.overallGrade = record.get("offenseOverall");
                 data.speed = record.get("offenseSpeed");
-                data.effect = record.get("offenseEffect");
                 data.stamina = record.get("offenseStamina");
+                data.passive = record.get("offensePassive");
+                data.direct = record.get("offenseDirect");
                 data.war = record.get("offenseWar");
-                data.versatility = record.get("offenseVersatility");
                 res(data);
               }
             });
