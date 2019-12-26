@@ -79,7 +79,7 @@ module.exports = {
         ].includes(color.toUpperCase())
       ) {
         log(`Invalid titan color/element submitted: ${color}`);
-        return "Invalid titan color/element submitted. Valid colors/elements iclude: Red, Blue, Yellow, Purple, Green, Fire, Ice, Holy, Dark or Nature";
+        return "Invalid titan color/element submitted. Valid colors/elements include: Red, Blue, Yellow, Purple, Green, Fire, Ice, Holy, Dark or Nature";
       }
 
       // Prepare the form data

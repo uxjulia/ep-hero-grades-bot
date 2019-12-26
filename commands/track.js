@@ -23,6 +23,22 @@ const postData = async (dataType, parsedText, date) => {
   });
 };
 
+async function saveJson(type = "titan") {
+  return new Promise((resolve, reject) => {
+    const legendsApiUrl = process.env.LEGENDS_GSCRIPT_URL;
+    request.get(
+      `${legendsApiUrl}?query=saveJson&type=${type}`,
+      function callback(err) {
+        if (err) {
+          resolve(`An error occurred while generating new player ${type} data`);
+        } else {
+          resolve(`Successfully generated new player ${type} data`);
+        }
+      }
+    );
+  });
+}
+
 module.exports = {
   name: "track",
   description: "Track Titan/AW scores",
@@ -55,10 +71,16 @@ module.exports = {
           .then(data => {
             message.channel.send(`${data} \n\nPosting to Google Sheets...`);
             return postData(dataType, data, date).then(resp => {
-              return resp;
+              const type = dataType.toLowerCase();
+              message.channel.send(resp);
+              return saveJson(type).then(msg => {
+                return msg;
+              });
             });
           })
-          .catch(err => log(err));
+          .catch(err => {
+            log(err);
+          });
         return ocr;
       }
     } catch (err) {
