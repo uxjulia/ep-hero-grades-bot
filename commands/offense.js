@@ -5,9 +5,9 @@ function getOffenseMessage(data) {
   const message = `Here are ${data.heroName}'s **offense** grades:
 
 **Speed**: ${data.speed}
-**Effect**: ${data.effect}
 **Stamina**: ${data.stamina}
-**Versatility**: ${data.versatility}
+**Passive Damage**: ${data.passive}
+**Direct Damage**: ${data.direct}
 **War**: ${data.war}
 __
 ${data.heroName}'s overall **offense** grade is **${data.overallGrade}**`;
