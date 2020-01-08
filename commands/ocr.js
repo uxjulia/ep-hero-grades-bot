@@ -49,7 +49,7 @@ const compressImage = async (fileUrl, fileName = "tempFile") => {
         .write(fileName); // save
     })
     .catch(err => {
-      console.error(err);
+      console.error("JIMP errror:", err);
     });
   return fs.createReadStream(path.join(__dirname + "/../", fileName));
 };
@@ -64,16 +64,16 @@ const removeTempFile = async fileName => {
 const getFormData = async message => {
   const file = message.attachments.first();
   const url = message.attachments.first().url;
-  const filesize = file.filesize;
+  const tempFileName = `${message.channel.name}-temp-file.jpg`;
+  const image = await compressImage(url, tempFileName);
   const form = {
     language: process.env.OCR_LANGUAGE,
     isTable: "true",
     filetype: "JPG",
     scale: "true",
+    file: image,
     OCREngine: process.env.OCR_ENGINE
   };
-  let tempFileName = `${message.channel.name}-temp-file.jpg`;
-  form.file = await compressImage(url, tempFileName);
   return form;
 };
 
