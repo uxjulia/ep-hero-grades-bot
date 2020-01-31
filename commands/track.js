@@ -73,9 +73,11 @@ module.exports = {
             return postData(dataType, data, date).then(resp => {
               const type = dataType.toLowerCase();
               message.channel.send(resp);
-              return saveJson(type).then(msg => {
-                return msg;
-              });
+              return saveJson(type)
+                .then(msg => {
+                  log(msg);
+                })
+                .catch(err => err);
             });
           })
           .catch(err => {
@@ -84,7 +86,8 @@ module.exports = {
         return ocr;
       }
     } catch (err) {
-      return new Error(err);
+      log(err);
+      return "Something went wrong... please try again.";
     }
   }
 };
