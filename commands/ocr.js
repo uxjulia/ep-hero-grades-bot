@@ -29,11 +29,7 @@ const fetchOCRText = async form => {
           if (json.IsErroredOnProcessing) {
             resolve(false);
           }
-          const lines = json.ParsedResults[0].TextOverlay.Lines;
-          let returnMessage = lines.map(line => {
-            return `${line.LineText}`;
-          });
-          resolve(returnMessage);
+          resolve(json.ParsedResults[0].ParsedText);
         }
       }
     );
@@ -72,10 +68,10 @@ const getFormData = async message => {
   const image = await compressImage(url, tempFileName);
   const form = {
     language: process.env.OCR_LANGUAGE,
+    isTable: "true",
     filetype: "JPG",
     scale: "true",
     file: image,
-    isOverlayRequired: "true",
     OCREngine: process.env.OCR_ENGINE
   };
   return form;
