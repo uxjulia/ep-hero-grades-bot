@@ -18,7 +18,7 @@
     "dotenv": "^6.2.0",
     "jimp": "^0.6.4",
     "random-js": "^1.0.8",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "request": "^2.88.0"
   },
   "devDependencies": {
